@@ -2,6 +2,21 @@ using System.Linq.Expressions;
 namespace Ndknitor.System.EFCore;
 public static class QueryableExtension
 {
+    public static IQueryable<T> Page<T>(this IQueryable<T> queryable, int page, int pageSize)
+    {
+        if (page < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(page), "Page number must be greater than or equal to 1.");
+        }
+
+        if (pageSize < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than or equal to 1.");
+        }
+
+        int skip = (page - 1) * pageSize;
+        return queryable.Skip(skip).Take(pageSize);
+    }
     public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName, bool isDescending)
     {
         var lambdaExpression = ToLambda<T>(propertyName);
