@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-namespace Ndknitor.Web.Validatons;
+namespace Ndknitor.Web.Validations;
 [AttributeUsage(AttributeTargets.Class)]
 public class OnlyOnePropertyAttribute : ValidationAttribute
 {

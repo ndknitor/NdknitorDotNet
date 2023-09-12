@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-namespace Ndknitor.Web.Validatons;
+namespace Ndknitor.Web.Validations;
 [AttributeUsage(AttributeTargets.Class)]
 public class LeastOnePropertyAttribute : ValidationAttribute
 {

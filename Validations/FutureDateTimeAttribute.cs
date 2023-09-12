@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-namespace Ndknitor.Web.Validatons;
+namespace Ndknitor.Web.Validations;
 [AttributeUsage(AttributeTargets.Property)]
 public class FutureDateTimeAttribute : ValidationAttribute
 {

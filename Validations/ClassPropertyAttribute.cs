@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
-namespace Ndknitor.Web.Validatons;
+namespace Ndknitor.Web.Validations;
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
 public class ClassPropertyAttribute : ValidationAttribute
