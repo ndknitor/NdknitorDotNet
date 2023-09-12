@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 namespace Ndknitor.System.EFCore;
 public static class QueryableExtension
 {
-    public static IQueryable<T> Page<T>(this IQueryable<T> queryable, int page, int pageSize)
+    public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, int pageSize)
     {
         if (page < 1)
         {
