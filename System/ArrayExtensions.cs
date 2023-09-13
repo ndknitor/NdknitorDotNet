@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 namespace Ndknitor.System;
 public static class ArrayExtensions
 {
-    public static void MapProperty<TSource, TResult>(
+    public static IEnumerable<TSource> MapProperty<TSource, TResult>(
         this IEnumerable<TSource> targetArray,
         Expression<Func<TSource, TResult>> propertyExpression,
         IEnumerable<TResult> sourceArray)
@@ -34,5 +34,6 @@ public static class ArrayExtensions
         {
             typeof(TSource).GetProperty(propertyName)?.SetValue(targetArray.ElementAt(i), sourceArray.ElementAt(i));
         }
+        return targetArray;
     }
 }
