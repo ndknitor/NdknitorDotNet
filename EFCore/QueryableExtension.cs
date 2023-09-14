@@ -2,11 +2,11 @@ using System.Linq.Expressions;
 namespace Ndknitor.System.EFCore;
 public static class QueryableExtension
 {
-    public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, int pageSize)
+    public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, int pageSize = int.MaxValue)
     {
         if (page < 1)
         {
-            throw new ArgumentOutOfRangeException(nameof(page), "Page number must be greater than or equal to 1.");
+            return queryable;
         }
 
         if (pageSize < 1)
