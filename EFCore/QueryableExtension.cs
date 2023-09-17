@@ -36,9 +36,9 @@ public static class QueryableExtension
         total = queryable.Count();
         return queryable.Skip(skip).Take(pageSize);
     }
-    public static IQueryable<T> ZPaginate<T>(this IQueryable<T> queryable, int page, int pageSize, out int total)
+    public static IQueryable<T> DeferredPaginate<T>(this IQueryable<T> queryable, int page, int pageSize, out QueryFutureValue<int> total)
     {
-        total = 0;
+        total = null;
         if (page < 1)
         {
             return queryable;
