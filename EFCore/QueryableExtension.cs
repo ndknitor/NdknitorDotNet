@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Z.EntityFramework.Plus;
 namespace Ndknitor.System.EFCore;
 public static class QueryableExtension
 {
@@ -15,6 +16,41 @@ public static class QueryableExtension
         }
 
         int skip = (page - 1) * pageSize;
+
+        return queryable.Skip(skip).Take(pageSize);
+    }
+    public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, int pageSize, out int total)
+    {
+        total = 0;
+        if (page < 1)
+        {
+            return queryable;
+        }
+
+        if (pageSize < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than or equal to 1.");
+        }
+
+        int skip = (page - 1) * pageSize;
+        total = queryable.Count();
+        return queryable.Skip(skip).Take(pageSize);
+    }
+    public static IQueryable<T> ZPaginate<T>(this IQueryable<T> queryable, int page, int pageSize, out int total)
+    {
+        total = 0;
+        if (page < 1)
+        {
+            return queryable;
+        }
+
+        if (pageSize < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than or equal to 1.");
+        }
+
+        int skip = (page - 1) * pageSize;
+        total = queryable.DeferredCount().FutureValue();
         return queryable.Skip(skip).Take(pageSize);
     }
     public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName, bool isDescending)
