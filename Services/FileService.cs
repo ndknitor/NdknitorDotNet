@@ -1,4 +1,4 @@
-namespace Ndknitor.Services;
+namespace Ndknitor.Services.Web;
 public interface IFileService
 {
     Stream Get(string url);
