@@ -1,7 +1,8 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-
+using System.Data;
+namespace Ndknito.EFCore;
 public static class DbContextExtensions
 {
     public static TKey GetLastInsertedId<TEntity, TKey>(this DbContext context)
@@ -47,7 +48,7 @@ public static class DbContextExtensions
         var sql = $"SELECT MAX([{primaryKeyPropertyName}]) FROM [{tableName}] where [{primaryKeyPropertyName}] <= {Environment.GetEnvironmentVariable("ID_ONSET") ?? Convert.ChangeType(maxTKey, typeof(string))}";
 
         var dbConnection = context.Database.GetDbConnection();
-        if (dbConnection.State != System.Data.ConnectionState.Open)
+        if (dbConnection.State != ConnectionState.Open)
         {
             dbConnection.Open();
         }

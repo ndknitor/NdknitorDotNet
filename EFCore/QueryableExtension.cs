@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using Z.EntityFramework.Plus;
-namespace Ndknitor.System.EFCore;
+namespace Ndknitor.EFCore;
 public static class QueryableExtension
 {
     public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, int pageSize = int.MaxValue)
