@@ -102,8 +102,6 @@ public static string ToJson(this object obj)
 
 **Returns:** A JSON string representation of the object.
 
-# Extension Methods
-
 ## `UserId<T>` Extension Method
 
 ### Description
