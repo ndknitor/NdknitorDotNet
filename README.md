@@ -2,39 +2,16 @@ This class library mainly write for request validation in ASP.NET Core and some 
 
 # Ndknitor.Web.Validations Namespace
 
-The `Ndknitor.Web.Validations` namespace contains custom validation attributes for use in ASP.NET applications.
-
-## `AllowedExtensionsAttribute` Class
-
-### Description
-The `AllowedExtensionsAttribute` is a custom validation attribute that allows you to specify a list of allowed file extensions for file uploads using `IFormFile` in ASP.NET applications.
-
-### Constructor
-```csharp
-public AllowedExtensionsAttribute(params string[] allowedExtensions)
-
-## `ClassPropertyAttribute` Class
-
-### Description
-The `ClassPropertyAttribute` is a custom validation attribute used for ensuring that a property name is valid for a specified target type. It is particularly useful for validating input data where property names need to be validated against a specific class type.
-
-### Constructor
-```csharp
-public ClassPropertyAttribute(Type targetType)
-
-[ClassProperty(typeof(Person))] // Validates that property names are valid for the Person class.
-public IEnumerable<string> PropertyNames { get; set; }
-
-## `FutureDateAttribute` Class
-
-### Description
-The `FutureDateAttribute` is a custom validation attribute used to ensure that a `DateTime` value is set to a date and time in the future, optionally including the current date and time, depending on the configuration. It is designed for use in ASP.NET applications to validate date inputs.
-
-### Properties
-
-#### `CanEquals` Property
-```csharp
-public bool CanEquals { get; set; } = false;
-
-[FutureDate(CanEquals = false)] // Validates that the date is in the future (not including the current date and time).
-public DateTime EventDate { get; set; }
+- **AllowedExtensionsAttribute**: Validates file extensions for `IFormFile` uploads.
+- **ClassPropertyAttribute**: Validates whether property names are valid for a specified target type.
+- **FutureDateAttribute**: Ensures that a `DateTime` value is set to a date and time in the future.
+- **FutureDateTimeAttribute**: Ensures that a `DateTime` value is set to a date and time in the future, including the current date and time.
+- **GreaterThan**: Validates that a property's value is greater than another property's value.
+- **ImageFileAttribute**: Validates that an uploaded file is an image based on its content type.
+- **LeastOnePropertyAttribute**: Ensures that at least one of the specified properties has a non-null or non-empty value.
+- **LessThan**: Validates that a property's value is less than another property's value.
+- **MaxFileSizeAttribute**: Validates the maximum file size for `IFormFile` uploads.
+- **OnlyOnePropertyAttribute**: Ensures that only one of the specified properties has a value.
+- **PastDateAttribute**: Ensures that a `DateTime` value is set to a date and time in the past.
+- **PastDateTimeAttribute**: Ensures that a `DateTime` value is set to a date and time in the past, including the current date and time.
+- **SquareImageAttribute**: Validates that an uploaded image has a square aspect ratio.
