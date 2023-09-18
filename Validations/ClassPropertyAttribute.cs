@@ -10,12 +10,12 @@ namespace Ndknitor.Web.Validations;
 public class ClassPropertyAttribute : ValidationAttribute
 {
     private readonly Type _targetType;
-    private readonly string[] _excludePropertyNames;
+    //private readonly string[] _excludePropertyNames;
 
-    public ClassPropertyAttribute(Type targetType, params string[] excludePropertyNames)
+    public ClassPropertyAttribute(Type targetType)
     {
         _targetType = targetType ?? throw new ArgumentNullException(nameof(targetType));
-        _excludePropertyNames = excludePropertyNames;
+        //_excludePropertyNames = excludePropertyNames;
     }
 
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)
@@ -44,10 +44,10 @@ public class ClassPropertyAttribute : ValidationAttribute
 
         foreach (var propertyName in propertyNames)
         {
-            if (_excludePropertyNames.Contains(propertyName, StringComparer.OrdinalIgnoreCase))
-            {
-                return new ValidationResult($"{propertyName} is excluded and not allowed.");
-            }
+            // if (_excludePropertyNames.Contains(propertyName, StringComparer.OrdinalIgnoreCase))
+            // {
+            //     return new ValidationResult($"{propertyName} is excluded and not allowed.");
+            // }
 
             bool isPropertyValid = false;
 
