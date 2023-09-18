@@ -156,7 +156,7 @@ public static TKey GetInsertId<TEntity, TKey>(this DbContext context)
 ## `GetInsertEntity<TEntity, TKey>` Extension Method
 
 ### Description
-The `GetInsertEntity<TEntity, TKey>` extension method is used to retrieve the newly inserted entity of type `TEntity` from the database context, along with its auto-increment primary key value of type `TKey`. This method is useful when you need to work with the entire entity immediately after insertion.
+The `GetInsertEntity<TEntity, TKey>` extension method is used to retrieve the newly inserted entity of type `TEntity` from the database context after insertion and attach its auto-increment primary key value of type `TKey` to the entity parameter. This method is useful when you need to work with the entire entity immediately after insertion and want to have access to the generated primary key value.
 
 ### Signature
 ```csharp
@@ -171,7 +171,7 @@ public static TEntity GetInsertEntity<TEntity, TKey>(this DbContext context, TEn
 ## `GetInsertEntities<TEntity, TKey>` Extension Method
 
 ### Description
-The `GetInsertEntities<TEntity, TKey>` extension method is used to retrieve a collection of newly inserted entities of type `TEntity` from the database context, along with their auto-increment primary key values of type `TKey`. This method is useful when you need to work with multiple inserted entities immediately after insertion.
+The `GetInsertEntities<TEntity, TKey>` extension method is used to retrieve a collection of newly inserted entities of type `TEntity` from the database context after insertion. For each entity in the collection, it attaches its auto-increment primary key value of type `TKey` to the entity parameter. This method is helpful when you need to work with multiple inserted entities immediately after insertion and want to have access to the generated primary key values for each entity.
 
 ### Signature
 ```csharp
