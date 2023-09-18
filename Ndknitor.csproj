@@ -21,6 +21,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
     <None Include="README.md" Pack="true" PackagePath="/" />
+    <None Include="NREADME.md" Pack="true" PackagePath="/" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="6.100.0" />
   </ItemGroup>
 
