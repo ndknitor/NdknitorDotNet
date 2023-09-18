@@ -1,5 +1,5 @@
 This class library mainly write for request validation in ASP.NET Core and some extension method for DbContext in EF Core
-
+---
 # Ndknitor.Web.Validations Namespace
 
 - **AllowedExtensionsAttribute**: Validates file extensions for `IFormFile` uploads.
@@ -15,6 +15,8 @@ This class library mainly write for request validation in ASP.NET Core and some 
 - **PastDateAttribute**: Ensures that a `DateTime` value is set to a date and time in the past.
 - **PastDateTimeAttribute**: Ensures that a `DateTime` value is set to a date and time in the past, including the current date and time.
 - **SquareImageAttribute**: Validates that an uploaded image has a square aspect ratio.
+
+---
 
 # Ndknitor.System Namespace
 
@@ -117,6 +119,7 @@ public static T UserId<T>(this ClaimsPrincipal principal, string key = ClaimType
 
 **Returns:** The user identifier of type `T` if found in the claims, or the default value of type `T` if not found.
 
+---
 
 # Ndknitor.EFCore Namespace
 
