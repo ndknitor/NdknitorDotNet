@@ -245,10 +245,12 @@ public static IQueryable<T> DeferredPaginate<T>(this IQueryable<T> queryable, in
 **Example Usage**
 
 ```csharp
-var query = dbContext.SomeEntities.AsQueryable();
 var page = 1;
 var pageSize = 10;
-IQueryable<SomeEntity> pagedQuery = query.Paginate(page, pageSize);
+QueryFutureValue<int> total = null;
+IQueryable<Seat> = context.Seat
+    .Where(s => s.Deleted == false)
+    .DeferredPaginate(page, pageSize, out total);
 ```
 
 In this example, the `Paginate` extension method is used to retrieve the first page of results from the `SomeEntities` DbSet with a specified page number and page size.
