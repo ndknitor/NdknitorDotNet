@@ -8,9 +8,11 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Nullable>disable</Nullable>
     <PackageId>Ndknitor</PackageId>
-    <Version>1.0.2</Version>
+    <Version>6.0.0</Version>
     <Authors>Ngo Dinh Khoi Nguyen</Authors>
     <Company>Ndknitor</Company>
+    <RepositoryUrl>https://github.com/ndknitor/NdknitorDotNet</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType> 
   </PropertyGroup>
 
   <ItemGroup>
