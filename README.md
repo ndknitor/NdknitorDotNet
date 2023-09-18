@@ -253,7 +253,7 @@ IQueryable<Seat> = context.Seat
     .DeferredPaginate(page, pageSize, out total);
 ```
 
-In this example, the `Paginate` extension method is used to retrieve the first page of results from the `SomeEntities` DbSet with a specified page number and page size.
+In this example, the `Paginate` extension method is used to retrieve the first page of results from the `Seat` DbSet with a specified page number and page size.
 
 ## `OrderBy<T>` Extension Method
 
