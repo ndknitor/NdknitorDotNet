@@ -1,5 +1,10 @@
 This class library mainly write for request validation in ASP.NET Core and some extension method for DbContext in EF Core
 ---
+**Command to download package:**
+
+```bash
+dotnet add package Ndknitor
+---
 # Ndknitor.Web.Validations Namespace
 
 - **AllowedExtensionsAttribute**: Validates file extensions for `IFormFile` uploads.
