@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using System.Reflection;
 using Z.EntityFramework.Plus;
 namespace Ndknitor.EFCore;
 public static class QueryableExtension
@@ -117,6 +118,54 @@ public static class QueryableExtension
         }
 
         return orderedQuery;
+    }
+
+    public static IQueryable<TEntity> SelectExcept<TEntity>(
+        this IQueryable<TEntity> query,
+        params Expression<Func<TEntity, object>>[] excludeColumns)
+        where TEntity : class
+    {
+        var parameter = Expression.Parameter(typeof(TEntity), "x");
+        var newExpression = Expression.New(typeof(TEntity));
+
+        // Create a list of property assignments to include all columns except the excluded ones
+        var assignments = typeof(TEntity)
+            .GetProperties()
+            .Where(property => !excludeColumns.Any(expr => IsPropertyMatch(expr, property)))
+            .Select(property => Expression.Bind(property, Expression.Property(parameter, property)))
+            .ToList();
+
+        var memberInitExpression = Expression.MemberInit(newExpression, assignments);
+        var lambda = Expression.Lambda<Func<TEntity, TEntity>>(memberInitExpression, parameter);
+
+        // Use the custom projection in the query
+        return query.Select(lambda);
+    }
+    private static bool IsPropertyMatch<TEntity>(
+        Expression<Func<TEntity, object>> expression,
+        PropertyInfo property)
+    {
+        var memberInitExpression = expression.Body as NewExpression;
+        if (memberInitExpression != null && memberInitExpression.Members.Count > 0)
+        {
+            return memberInitExpression.Members
+                .Select(member => member.Name)
+                .Contains(property.Name);
+        }
+
+        if (expression.Body is UnaryExpression unaryExpression)
+        {
+            if (unaryExpression.Operand is MemberExpression memberExpression)
+            {
+                return memberExpression.Member.Name == property.Name;
+            }
+        }
+        else if (expression.Body is MemberExpression memberExpression)
+        {
+            return memberExpression.Member.Name == property.Name;
+        }
+
+        return false;
     }
 
     private static Expression<Func<T, object>> ToLambda<T>(string propertyName)
