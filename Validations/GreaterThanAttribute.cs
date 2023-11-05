@@ -1,12 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 namespace Ndknitor.Web.Validations;
 [AttributeUsage(AttributeTargets.Property)]
-public class GreaterThan : ValidationAttribute
+public class GreaterThanAttribute : ValidationAttribute
 {
     private readonly string _comparisonProperty;
     public bool CanEquals { get; set; }
 
-    public GreaterThan(string comparisonProperty)
+    public GreaterThanAttribute(string comparisonProperty)
     {
         _comparisonProperty = comparisonProperty;
     }
