@@ -2,7 +2,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Data;
-namespace Ndknito.EFCore;
+namespace Ndknitor.EFCore;
 public static class DbContextExtensions
 {
     public static TKey GetLastInsertedId<TEntity, TKey>(this DbContext context)
