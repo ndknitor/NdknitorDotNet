@@ -119,10 +119,27 @@ public static class QueryableExtension
 
         return orderedQuery;
     }
+    public static IQueryable<TEntity> SelectFields<TEntity>(this IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] includeColumns)
+    where TEntity : class
+    {
+        var parameter = Expression.Parameter(typeof(TEntity), "x");
+        var newExpression = Expression.New(typeof(TEntity));
 
-    public static IQueryable<TEntity> SelectExcept<TEntity>(
-        this IQueryable<TEntity> query,
-        params Expression<Func<TEntity, object>>[] excludeColumns)
+        // Create a list of property assignments to include only the included columns
+        var assignments = typeof(TEntity)
+            .GetProperties()
+            .Where(property => includeColumns.Any(expr => IsPropertyMatch(expr, property)))
+            .Select(property => Expression.Bind(property, Expression.Property(parameter, property)))
+            .ToList();
+
+        var memberInitExpression = Expression.MemberInit(newExpression, assignments);
+        var lambda = Expression.Lambda<Func<TEntity, TEntity>>(memberInitExpression, parameter);
+
+        // Use the custom projection in the query
+        return query.Select(lambda);
+    }
+
+    public static IQueryable<TEntity> SelectExcept<TEntity>(this IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] excludeColumns)
         where TEntity : class
     {
         var parameter = Expression.Parameter(typeof(TEntity), "x");
@@ -141,9 +158,7 @@ public static class QueryableExtension
         // Use the custom projection in the query
         return query.Select(lambda);
     }
-    private static bool IsPropertyMatch<TEntity>(
-        Expression<Func<TEntity, object>> expression,
-        PropertyInfo property)
+    private static bool IsPropertyMatch<TEntity>(Expression<Func<TEntity, object>> expression, PropertyInfo property)
     {
         var memberInitExpression = expression.Body as NewExpression;
         if (memberInitExpression != null && memberInitExpression.Members.Count > 0)
@@ -167,6 +182,7 @@ public static class QueryableExtension
 
         return false;
     }
+
 
     private static Expression<Func<T, object>> ToLambda<T>(string propertyName)
     {
