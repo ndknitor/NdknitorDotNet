@@ -7,7 +7,7 @@ public static class StringExtension
     {
         return JsonConvert.DeserializeObject<T>(str);
     }
-    public static T ToBsonClass<T>(string base64data)
+    public static T ToBsonClass<T>(this string base64data)
     {
         byte[] data = Convert.FromBase64String(base64data);
 
