@@ -20,6 +20,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.21" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
     <None Include="README.md" Pack="true" PackagePath="/" />
     <None Include="NREADME.md" Pack="true" PackagePath="/" />
