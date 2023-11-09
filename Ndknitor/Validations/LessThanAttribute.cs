@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 namespace Ndknitor.Web.Validations;
+[AttributeUsage(AttributeTargets.Property)]
 public class LessThanAttribute : ValidationAttribute
 {
     private readonly string _comparisonProperty;

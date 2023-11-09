@@ -7,11 +7,11 @@ public class RegularTextAttribute : ValidationAttribute
 {
     public bool IncludeNumber { get; set; } = false;
     public string IncludeCharaters { get; set; } = "";
-    public override bool IsValid(object value)
+    public override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
         if (value == null)
         {
-            return true;
+            return ValidationResult.Success;
         }
         if (value is string target)
         {
@@ -19,7 +19,7 @@ public class RegularTextAttribute : ValidationAttribute
             Regex regex = new Regex($"[^a-zA-Z${number} ${IncludeCharaters}]+");
             if (regex.IsMatch(target))
             {
-                return true;
+                return ValidationResult.Success;
             }
         }
         else
@@ -27,11 +27,6 @@ public class RegularTextAttribute : ValidationAttribute
             throw new Exception("RegularText expect a string");
         }
 
-        return false;
-    }
-
-    public override string FormatErrorMessage(string name)
-    {
-        return $"{name} was not in the correct format";
+        return new ValidationResult($"{nameof(value)} was not in the correct format");
     }
 }
