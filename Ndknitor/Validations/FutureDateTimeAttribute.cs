@@ -4,23 +4,21 @@ namespace Ndknitor.Web.Validations;
 [AttributeUsage(AttributeTargets.Property)]
 public class FutureDateTimeAttribute : ValidationAttribute
 {
-    public bool CanEquals { get; set; } = false;
-    public override bool IsValid(object value)
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
+        if (value == null)
+        {
+            return ValidationResult.Success;
+        }
         if (value is DateTime dateTimeValue)
         {
-            if (CanEquals)
+            if (dateTimeValue <= DateTime.Now)
             {
-                return dateTimeValue >= DateTime.Now;
+                return new ValidationResult("");
             }
-            else
-            {
-                return dateTimeValue > DateTime.Now;
-            }
-
+            return ValidationResult.Success;
         }
-
-        return false;
+        throw new InvalidDataException("FutureDateTime expect a DateTime");
     }
 
     public override string FormatErrorMessage(string name)

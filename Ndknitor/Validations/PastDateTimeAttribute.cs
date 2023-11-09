@@ -4,26 +4,19 @@ namespace Ndknitor.Web.Validations;
 [AttributeUsage(AttributeTargets.Property)]
 public class PastDateTimeAttribute : ValidationAttribute
 {
-    public bool CanEquals { get; set; } = false;
-    public override bool IsValid(object value)
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
+        if (value == null)
+        {
+            return ValidationResult.Success;
+        }
         if (value is DateTime dateTimeValue)
         {
-            if (CanEquals)
-            {
-                return dateTimeValue <= DateTime.Now;
-            }
-            else
-            {
-                return dateTimeValue < DateTime.Now;
-            }
+            if (dateTimeValue >= DateTime.Now)
+                return new ValidationResult($"{validationContext.DisplayName} must be before the current date and time.");
+
+            return ValidationResult.Success;
         }
-
-        return false;
-    }
-
-    public override string FormatErrorMessage(string name)
-    {
-        return $"{name} must be before the current date and time.";
+        throw new InvalidDataException("PastDateTimeAttribute expect a DateTime");
     }
 }

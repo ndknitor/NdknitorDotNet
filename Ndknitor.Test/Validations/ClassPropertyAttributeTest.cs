@@ -14,7 +14,7 @@ public class ClassPropertyAttributeTests
         var attribute = new ClassPropertyAttribute(targetType);
 
         // Act
-        var result = attribute.GetValidationResult("Name", new ValidationContext(null));
+        var result = attribute.GetValidationResult("Name", new ValidationContext(1));
 
         // Assert
         Assert.IsNull(result);
@@ -28,7 +28,7 @@ public class ClassPropertyAttributeTests
         var attribute = new ClassPropertyAttribute(targetType);
 
         // Act
-        var result = attribute.GetValidationResult(new string[] { "Name", "Age" }, new ValidationContext(null));
+        var result = attribute.GetValidationResult(new string[] { "Name", "Age" }, new ValidationContext(1));
 
         // Assert
         Assert.IsNull(result);
@@ -42,7 +42,7 @@ public class ClassPropertyAttributeTests
         var attribute = new ClassPropertyAttribute(targetType);
 
         // Act
-        var result = attribute.GetValidationResult("InvalidProperty", new ValidationContext(null));
+        var result = attribute.GetValidationResult("InvalidProperty", new ValidationContext(1));
 
         // Assert
         Assert.IsNotNull(result);
@@ -57,7 +57,7 @@ public class ClassPropertyAttributeTests
         var attribute = new ClassPropertyAttribute(targetType);
 
         // Act
-        var result = attribute.GetValidationResult(null, new ValidationContext(null));
+        var result = attribute.GetValidationResult(null, new ValidationContext(1));
 
         // Assert
         Assert.IsNull(result);

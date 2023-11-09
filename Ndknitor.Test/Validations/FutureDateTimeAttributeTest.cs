@@ -7,20 +7,6 @@ using System.ComponentModel.DataAnnotations;
 public class FutureDateTimeAttributeTests
 {
     [Test]
-    public void IsValid_WithFutureDateTimeAndCanEqualsTrue_ShouldReturnTrue()
-    {
-        // Arrange
-        var attribute = new FutureDateTimeAttribute { CanEquals = true };
-        var futureDateTime = DateTime.Now.AddMinutes(30);
-
-        // Act
-        var result = attribute.IsValid(futureDateTime);
-
-        // Assert
-        Assert.IsTrue(result);
-    }
-
-    [Test]
     public void IsValid_WithFutureDateTimeAndCanEqualsFalse_ShouldReturnTrue()
     {
         // Arrange
@@ -35,20 +21,6 @@ public class FutureDateTimeAttributeTests
     }
 
     [Test]
-    public void IsValid_WithCurrentDateTimeAndCanEqualsTrue_ShouldReturnTrue()
-    {
-        // Arrange
-        var attribute = new FutureDateTimeAttribute { CanEquals = true };
-        var currentDateTime = DateTime.Now;
-
-        // Act
-        var result = attribute.IsValid(currentDateTime);
-
-        // Assert
-        Assert.IsTrue(result);
-    }
-
-    [Test]
     public void IsValid_WithCurrentDateTimeAndCanEqualsFalse_ShouldReturnFalse()
     {
         // Arrange
@@ -57,20 +29,6 @@ public class FutureDateTimeAttributeTests
 
         // Act
         var result = attribute.IsValid(currentDateTime);
-
-        // Assert
-        Assert.IsFalse(result);
-    }
-
-    [Test]
-    public void IsValid_WithPastDateTimeAndCanEqualsTrue_ShouldReturnFalse()
-    {
-        // Arrange
-        var attribute = new FutureDateTimeAttribute { CanEquals = true };
-        var pastDateTime = DateTime.Now.AddMinutes(-30);
-
-        // Act
-        var result = attribute.IsValid(pastDateTime);
 
         // Assert
         Assert.IsFalse(result);

@@ -13,7 +13,7 @@ public class RegularTextAttributeTests
         var validString = "abc123!@#";
 
         // Act
-        var result = attribute.GetValidationResult(validString, new ValidationContext(null));
+        var result = attribute.GetValidationResult(validString, new ValidationContext(1));
 
         // Assert
         Assert.That(result, Is.Null);
@@ -27,7 +27,7 @@ public class RegularTextAttributeTests
         var validString = "abc!@#";
 
         // Act
-        var result = attribute.GetValidationResult(validString, new ValidationContext(null));
+        var result = attribute.GetValidationResult(validString, new ValidationContext(1));
 
         // Assert
         Assert.That(result, Is.Null);
@@ -41,7 +41,7 @@ public class RegularTextAttributeTests
         var validString = "abc123";
 
         // Act
-        var result = attribute.GetValidationResult(validString, new ValidationContext(null));
+        var result = attribute.GetValidationResult(validString, new ValidationContext(1));
 
         // Assert
         Assert.That(result, Is.Null);
@@ -55,7 +55,7 @@ public class RegularTextAttributeTests
         var validString = "abc";
 
         // Act
-        var result = attribute.GetValidationResult(validString, new ValidationContext(null));
+        var result = attribute.GetValidationResult(validString, new ValidationContext(1));
 
         // Assert
         Assert.That(result, Is.Null);
@@ -69,10 +69,10 @@ public class RegularTextAttributeTests
         var invalidString = "abc123$%^";
 
         // Act
-        var result = attribute.GetValidationResult(invalidString, new ValidationContext(null));
+        var result = attribute.GetValidationResult(invalidString, new ValidationContext(""));
 
         // Assert
-        Assert.That(result.ErrorMessage, Is.EqualTo("Value was not in the correct format"));
+        Assert.That(result.ErrorMessage, Is.EqualTo("String was not in the correct format"));
     }
 
     [Test]
@@ -82,7 +82,7 @@ public class RegularTextAttributeTests
         var attribute = new RegularTextAttribute();
 
         // Act
-        var result = attribute.GetValidationResult(null, new ValidationContext(null));
+        var result = attribute.GetValidationResult(null, new ValidationContext(1));
 
         // Assert
         Assert.That(result, Is.Null);
@@ -96,6 +96,6 @@ public class RegularTextAttributeTests
         var nonStringValue = 123;
 
         // Act and Assert
-        Assert.Throws<ArgumentNullException>(() => attribute.GetValidationResult(nonStringValue, new ValidationContext(null)));
+        Assert.Throws<InvalidDataException>(() => attribute.GetValidationResult(nonStringValue, new ValidationContext(1)));
     }
 }

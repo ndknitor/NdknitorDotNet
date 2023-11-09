@@ -2,12 +2,26 @@
 using Ndknitor.System;
 using Ndknitor.Web.Validations;
 using StackExchange.Redis;
-
-var attribute = new RegularTextAttribute();
+var attribute = new RegularTextAttribute {  };
+var invalidString = "asd^";
 
 // Act
-var result = attribute.GetValidationResult(null, new ValidationContext(null));
-Console.WriteLine(result);
+var result = attribute.GetValidationResult(invalidString, new ValidationContext(1));
+
+Console.WriteLine(result.ErrorMessage);
+
+
+
+
+public class TestModel
+{
+    public int Value { get; set; }
+    public int ComparisonValue { get; set; }
+}
+
+//Console.WriteLine(result.ErrorMessage);
+
+
 // var obj = new
 // {
 //     Name = "Movie Premiere",

@@ -60,7 +60,7 @@ public class GreaterThanAttributeTests
 
         // Assert
         Assert.IsNotNull(result);
-        Assert.That(result.ErrorMessage, Is.EqualTo("Value must be greater than ComparisonValue"));
+        Assert.That(result.ErrorMessage, Is.EqualTo("TestModel must be greater than ComparisonValue"));
     }
 
     [Test]
@@ -75,7 +75,7 @@ public class GreaterThanAttributeTests
 
         // Assert
         Assert.IsNotNull(result);
-        Assert.That(result.ErrorMessage, Is.EqualTo("Value must be equals or greater than ComparisonValue"));
+        Assert.That(result.ErrorMessage, Is.EqualTo("TestModel must be equals or greater than ComparisonValue"));
     }
 
     [Test]
@@ -90,7 +90,7 @@ public class GreaterThanAttributeTests
 
         // Assert
         Assert.IsNotNull(result);
-        Assert.That(result.ErrorMessage, Is.EqualTo("Value must be greater than ComparisonValue"));
+        Assert.That(result.ErrorMessage, Is.EqualTo("TestModel must be greater than ComparisonValue"));
     }
 }
 

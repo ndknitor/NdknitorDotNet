@@ -45,7 +45,7 @@ public class AllowedExtensionsAttributeTests
         var attribute = new AllowedExtensionsAttribute(allowedExtensions);
 
         // Act
-        var result = attribute.GetValidationResult(null, new ValidationContext(null));
+        var result = attribute.GetValidationResult(null, new ValidationContext(1));
 
         // Assert
         Assert.IsNull(result);

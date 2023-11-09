@@ -5,25 +5,31 @@ namespace Ndknitor.Web.Validations;
 public class PastDateAttribute : ValidationAttribute
 {
     public bool CanEquals { get; set; } = false;
-    public override bool IsValid(object value)
+
+
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
+        if (value == null)
+        {
+            return ValidationResult.Success;
+        }
         if (value is DateTime dateTimeValue)
         {
             if (CanEquals)
             {
-                return dateTimeValue.Date <= DateTime.Now.Date;
+                if (dateTimeValue.Date > DateTime.Now.Date)
+                    return new ValidationResult($"{validationContext.DisplayName} must be before or equals to the current date.");
+                return ValidationResult.Success;
             }
             else
             {
-                return dateTimeValue.Date < DateTime.Now.Date;
+                if (dateTimeValue.Date >= DateTime.Now.Date)
+                    return new ValidationResult($"{validationContext.DisplayName} must be before the current date.");
+
+                return ValidationResult.Success;
             }
         }
-
-        return false;
-    }
-
-    public override string FormatErrorMessage(string name)
-    {
-        return $"{name} must be before the current date and time.";
+        throw new InvalidDataException("PastDateTimeAttribute expect a DateTime");
     }
 }

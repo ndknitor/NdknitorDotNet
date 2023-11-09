@@ -14,7 +14,7 @@ public class MaxFileSizeAttributeTests
         var file = new FormFile(new MemoryStream(new byte[4 * 1024 * 1024]), 0, 4 * 1024 * 1024, "testFile", "test.txt");
 
         // Act
-        var result = attribute.GetValidationResult(file, new ValidationContext(null));
+        var result = attribute.GetValidationResult(file, new ValidationContext(1));
 
         // Assert
         Assert.That(result, Is.Null);
@@ -28,7 +28,7 @@ public class MaxFileSizeAttributeTests
         var file = new FormFile(new MemoryStream(new byte[5 * 1024 * 1024]), 0, 5 * 1024 * 1024, "testFile", "test.txt");
 
         // Act
-        var result = attribute.GetValidationResult(file, new ValidationContext(null));
+        var result = attribute.GetValidationResult(file, new ValidationContext(1));
 
         // Assert
         Assert.That(result, Is.Null);
@@ -42,7 +42,7 @@ public class MaxFileSizeAttributeTests
         var file = new FormFile(new MemoryStream(new byte[6 * 1024 * 1024]), 0, 6 * 1024 * 1024, "testFile", "test.txt");
 
         // Act
-        var result = attribute.GetValidationResult(file, new ValidationContext(null));
+        var result = attribute.GetValidationResult(file, new ValidationContext(1));
 
         // Assert
         Assert.That(result.ErrorMessage, Is.EqualTo("The file size cannot exceed 5 MB."));
@@ -55,7 +55,7 @@ public class MaxFileSizeAttributeTests
         var attribute = new MaxFileSizeAttribute(5); // 5 MB
 
         // Act
-        var result = attribute.GetValidationResult(null, new ValidationContext(null));
+        var result = attribute.GetValidationResult(null, new ValidationContext(1));
 
         // Assert
         Assert.That(result, Is.Null);

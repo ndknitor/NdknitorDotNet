@@ -16,7 +16,7 @@ public class RegularTextAttribute : ValidationAttribute
         if (value is string target)
         {
             string number = IncludeNumber ? "0-9" : "";
-            Regex regex = new Regex($"[^a-zA-Z${number} ${IncludeCharaters}]+");
+            Regex regex = new Regex($"^[A-Za-z{number} {IncludeCharaters}]+$");
             if (regex.IsMatch(target))
             {
                 return true;
@@ -24,7 +24,7 @@ public class RegularTextAttribute : ValidationAttribute
         }
         else
         {
-            throw new Exception("RegularText expect a string");
+            throw new InvalidDataException("RegularText expect a string");
         }
 
         return false;

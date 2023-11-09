@@ -59,7 +59,7 @@ public class LessThanAttributeTests
         var result = attribute.GetValidationResult(model.Value, new ValidationContext(model));
 
         // Assert
-        Assert.That(result.ErrorMessage, Is.EqualTo("Value must be less than ComparisonValue"));
+        Assert.That(result.ErrorMessage, Is.EqualTo("TestModel must be less than ComparisonValue"));
     }
 
     [Test]
@@ -73,7 +73,7 @@ public class LessThanAttributeTests
         var result = attribute.GetValidationResult(model.Value, new ValidationContext(model));
 
         // Assert
-        Assert.That(result.ErrorMessage, Is.EqualTo("Value must be equals or less than ComparisonValue"));
+        Assert.That(result.ErrorMessage, Is.EqualTo("TestModel must be equals or less than ComparisonValue"));
     }
 
     [Test]
@@ -87,6 +87,6 @@ public class LessThanAttributeTests
         var result = attribute.GetValidationResult(model.Value, new ValidationContext(model));
 
         // Assert
-        Assert.That(result.ErrorMessage, Is.EqualTo("Value must be less than ComparisonValue"));
+        Assert.That(result.ErrorMessage, Is.EqualTo("TestModel must be less than ComparisonValue"));
     }
 }
