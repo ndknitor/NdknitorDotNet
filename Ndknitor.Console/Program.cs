@@ -2,14 +2,16 @@
 using Ndknitor.System;
 using Ndknitor.Web.Validations;
 using StackExchange.Redis;
-var attribute = new RegularTextAttribute {  };
-var invalidString = "asd^";
+var regularTextAttribute = new RegularTextAttribute
+{
+    IncludeSpace = true,
+    IncludeNumber = false,
+    IncludeCharaters = "!@#"
+};
 
 // Act
-var result = attribute.GetValidationResult(invalidString, new ValidationContext(1));
-
-Console.WriteLine(result.ErrorMessage);
-
+bool isValid = regularTextAttribute.IsValid("Valid_Text");
+Console.WriteLine(isValid);
 
 
 

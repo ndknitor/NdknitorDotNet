@@ -1,101 +1,49 @@
-using Ndknitor.Web.Validations;
 using NUnit.Framework;
-using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 [TestFixture]
 public class RegularTextAttributeTests
 {
-    [Test]
-    public void IsValid_WithValidString_ShouldReturnSuccess()
+    [TestCase("ValidText", true, false, "-_", ExpectedResult = true)]
+    [TestCase("Invalid123", true, false, "-_", ExpectedResult = false)]
+
+    [TestCase(null, true, false, "-_", ExpectedResult = true)]
+
+    [TestCase("Valid_Text", true, true, "-_", ExpectedResult = true)]
+    [TestCase("Invalid_Text", true, true, "-", ExpectedResult = false)]
+
+    [TestCase("Invalid 123", false, true, "-_", ExpectedResult = false)]
+    [TestCase("Valid123", false, true, "-_", ExpectedResult = true)]
+
+    [TestCase("Valid_Text", false, false, "-_", ExpectedResult = true)]
+    [TestCase("Valid_Text1234", false, false, "-_", ExpectedResult = false)]
+
+
+    [TestCase("Valid_Text", true, false, "!@#", ExpectedResult = false)]
+    [TestCase("Valid!Text", true, false, "!@#", ExpectedResult = true)]
+    public object IsValid_WithDifferentCases(string value, bool includeSpace, bool includeNumber, string includeCharacters)
     {
         // Arrange
-        var attribute = new RegularTextAttribute { IncludeNumber = true, IncludeCharaters = "!@#" };
-        var validString = "abc123!@#";
-
-        // Act
-        var result = attribute.GetValidationResult(validString, new ValidationContext(1));
-
-        // Assert
-        Assert.That(result, Is.Null);
+        var regularTextAttribute = new RegularTextAttribute
+        {
+            IncludeSpace = includeSpace,
+            IncludeNumber = includeNumber,
+            IncludeCharaters = includeCharacters
+        };
+        return regularTextAttribute.IsValid(value);
     }
 
     [Test]
-    public void IsValid_WithValidStringAndNoNumbers_ShouldReturnSuccess()
+    public void FormatErrorMessage_ReturnsCorrectMessage()
     {
         // Arrange
-        var attribute = new RegularTextAttribute { IncludeNumber = false, IncludeCharaters = "!@#" };
-        var validString = "abc!@#";
+        var regularTextAttribute = new RegularTextAttribute();
+        string propertyName = "MyProperty";
 
         // Act
-        var result = attribute.GetValidationResult(validString, new ValidationContext(1));
+        string errorMessage = regularTextAttribute.FormatErrorMessage(propertyName);
 
         // Assert
-        Assert.That(result, Is.Null);
-    }
-
-    [Test]
-    public void IsValid_WithValidStringAndNoSpecialCharacters_ShouldReturnSuccess()
-    {
-        // Arrange
-        var attribute = new RegularTextAttribute { IncludeNumber = true, IncludeCharaters = "" };
-        var validString = "abc123";
-
-        // Act
-        var result = attribute.GetValidationResult(validString, new ValidationContext(1));
-
-        // Assert
-        Assert.That(result, Is.Null);
-    }
-
-    [Test]
-    public void IsValid_WithValidStringAndNoNumbersOrSpecialCharacters_ShouldReturnSuccess()
-    {
-        // Arrange
-        var attribute = new RegularTextAttribute { IncludeNumber = false, IncludeCharaters = "" };
-        var validString = "abc";
-
-        // Act
-        var result = attribute.GetValidationResult(validString, new ValidationContext(1));
-
-        // Assert
-        Assert.That(result, Is.Null);
-    }
-
-    [Test]
-    public void IsValid_WithInvalidString_ShouldReturnValidationError()
-    {
-        // Arrange
-        var attribute = new RegularTextAttribute { IncludeNumber = true, IncludeCharaters = "!@#" };
-        var invalidString = "abc123$%^";
-
-        // Act
-        var result = attribute.GetValidationResult(invalidString, new ValidationContext(""));
-
-        // Assert
-        Assert.That(result.ErrorMessage, Is.EqualTo("String was not in the correct format"));
-    }
-
-    [Test]
-    public void IsValid_WithNullValue_ShouldReturnSuccess()
-    {
-        // Arrange
-        var attribute = new RegularTextAttribute();
-
-        // Act
-        var result = attribute.GetValidationResult(null, new ValidationContext(1));
-
-        // Assert
-        Assert.That(result, Is.Null);
-    }
-
-    [Test]
-    public void IsValid_WithNonStringValue_ShouldThrowException()
-    {
-        // Arrange
-        var attribute = new RegularTextAttribute();
-        var nonStringValue = 123;
-
-        // Act and Assert
-        Assert.Throws<InvalidDataException>(() => attribute.GetValidationResult(nonStringValue, new ValidationContext(1)));
+        Assert.That(errorMessage, Is.EqualTo($"{propertyName} was not in the correct format"));
     }
 }
