@@ -1,5 +1,6 @@
-This class library mainly write for request validation in ASP.NET Core and some extension method for DbContext in EF Core
 [![Unit testing CI/CD for Ndknitor library](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml)
+---
+This class library mainly write for request validation in ASP.NET Core and some extension method for DbContext in EF Core
 ---
 **Command to download package:**
 
@@ -13,15 +14,16 @@ dotnet add package Ndknitor
 - **ClassPropertyAttribute**: Validates whether property names are valid for a specified target type.
 - **FutureDateAttribute**: Ensures that a `DateTime` value is set to a date and time in the future.
 - **FutureDateTimeAttribute**: Ensures that a `DateTime` value is set to a date and time in the future, including the current date and time.
-- **GreaterThan**: Validates that a property's value is greater than another property's value.
+- **GreaterThanAttribute**: Validates that a property's value is greater than another property's value.
 - **ImageFileAttribute**: Validates that an uploaded file is an image based on its content type.
 - **LeastOnePropertyAttribute**: Ensures that at least one of the specified properties has a non-null or non-empty value.
-- **LessThan**: Validates that a property's value is less than another property's value.
+- **LessThanAttribute**: Validates that a property's value is less than another property's value.
 - **MaxFileSizeAttribute**: Validates the maximum file size for `IFormFile` uploads.
 - **OnlyOnePropertyAttribute**: Ensures that only one of the specified properties has a value.
 - **PastDateAttribute**: Ensures that a `DateTime` value is set to a date and time in the past.
 - **PastDateTimeAttribute**: Ensures that a `DateTime` value is set to a date and time in the past, including the current date and time.
 - **SquareImageAttribute**: Validates that an uploaded image has a square aspect ratio.
+- **RegularTextAttribute**: Validates whether property values are valid based on a specified regular expression pattern.
 
 ---
 
@@ -73,29 +75,39 @@ employees.MapProperty(e => e.Salary, salaries);
 ```
 In this example, the `MapProperty` extension method is used to map the `Salary` property of `Employee` objects in the `employees` collection to values from the `salaries` collection.
 
-## `ToClass<T>` Extension Method
+# ToJsonClass Extension Method
 
-### Description
-The `ToClass<T>` extension method allows you to deserialize a JSON string into an object of a specified type `T`. It is a convenient way to convert JSON data into a strongly-typed object.
+## Description
 
-### Signature
-```csharp
-public static T ToClass<T>(this string str)
-```
+The `ToJsonClass` extension method is designed to deserialize a JSON string into an instance of a specified class (`T`). This method uses the `JsonConvert` class from the JSON.NET library to perform the deserialization.
 
-- `str` (string): The JSON string to be deserialized.
-- Returns an object of type `T` after deserializing the JSON string.
-
-### Dependencies
-This method relies on the `JsonConvert` class from the Newtonsoft.Json library for JSON deserialization. Ensure that you have this library referenced in your project for the method to work.
-
-### Example Usage
+## Method Signature
 
 ```csharp
-string json = "{\"Name\":\"John\",\"Age\":30,\"City\":\"New York\"}";
-Person person = json.ToClass<Person>();
+public static T ToJsonClass<T>(this string str)
 ```
-In this example, the `ToClass<T>` extension method is used to deserialize a JSON string `json` into a `Person` object.
+
+### Parameters
+
+- `str`: The JSON string to be deserialized into an instance of the specified class.
+
+### Type Parameters
+
+- `T`: The type of the class to which the JSON string should be deserialized.
+
+### Return Type
+
+- `T`: An instance of the specified class (`T`) representing the deserialized JSON data.
+
+## Usage
+
+```csharp
+// Assuming a JSON string
+string jsonString = GetJsonString();
+
+// Convert the JSON string to an instance of MyClass
+MyClass myObject = jsonString.ToJsonClass<MyClass>();
+```
 
 ## `ToJson` Extension Method
 
@@ -110,6 +122,66 @@ public static string ToJson(this object obj)
 - `obj` (object): The object to be serialized to JSON.
 
 **Returns:** A JSON string representation of the object.
+
+
+# ToBson Extension Method
+
+## Description
+
+The `ToBson` extension method is designed to convert an object into its BSON (Binary JSON) representation. BSON is a binary representation of JSON-like documents, commonly used for data storage and transmission in MongoDB.
+
+## Method Signature
+
+```csharp
+public static byte[] ToBson(this object value)
+```
+
+### Parameters
+
+- `value`: The object to be serialized into BSON.
+
+### Return Type
+
+- `byte[]`: The BSON representation of the input object as a byte array.
+
+## Implementation
+
+The method utilizes the `MemoryStream` and `BsonDataWriter` classes to perform the BSON serialization. The `JsonSerializer` from the JSON.NET library is used for the serialization process.
+
+# ToBsonClass Extension Method
+
+## Description
+
+The `ToBsonClass` extension method is designed to convert a byte array containing BSON (Binary JSON) data into an instance of a specified class (`T`). BSON is a binary representation of JSON-like documents, commonly used for data storage and transmission in MongoDB.
+
+## Method Signature
+
+```csharp
+public static T ToBsonClass<T>(this byte[] data)
+```
+
+### Parameters
+
+- `data`: The byte array containing BSON data to be deserialized.
+
+### Type Parameters
+
+- `T`: The type of the class to which the BSON data should be deserialized.
+
+### Return Type
+
+- `T`: An instance of the specified class (`T`) representing the deserialized BSON data.
+
+## Usage
+
+```csharp
+// Assuming a byte array containing BSON data
+byte[] bsonData = GetBsonData();
+
+// Convert the BSON data to an instance of MyClass
+MyClass myObject = bsonData.ToBsonClass<MyClass>();
+```
+
 
 ## `UserId<T>` Extension Method
 
