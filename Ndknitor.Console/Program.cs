@@ -1,25 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Ndknitor.System;
-using Ndknitor.Web.Validations;
-using StackExchange.Redis;
-var regularTextAttribute = new RegularTextAttribute
-{
-    IncludeSpace = true,
-    IncludeNumber = false,
-    IncludeCharaters = "!@#"
-};
+﻿Console.WriteLine("Dit me may");
+// using System.ComponentModel.DataAnnotations;
+// using Ndknitor.System;
+// using Ndknitor.Web.Validations;
+// using StackExchange.Redis;
+// var regularTextAttribute = new RegularTextAttribute
+// {
+//     IncludeSpace = true,
+//     IncludeNumber = false,
+//     IncludeCharaters = "!@#"
+// };
 
-// Act
-bool isValid = regularTextAttribute.IsValid("Valid_Text");
-Console.WriteLine(isValid);
+// // Act
+// bool isValid = regularTextAttribute.IsValid("Valid_Text");
+// Console.WriteLine(isValid);
 
 
 
-public class TestModel
-{
-    public int Value { get; set; }
-    public int ComparisonValue { get; set; }
-}
+// public class TestModel
+// {
+//     public int Value { get; set; }
+//     public int ComparisonValue { get; set; }
+// }
 
 //Console.WriteLine(result.ErrorMessage);
 
