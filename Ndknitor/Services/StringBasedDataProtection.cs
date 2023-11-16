@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.AspNetCore.DataProtection;
 
 public static class DataProtectionServiceCollectionExtensions
@@ -39,15 +41,31 @@ public class StringBasedDataProtector : IDataProtector
 
     public byte[] Protect(byte[] userData)
     {
-        // Implement your custom encryption logic using the provided key
-        // Note: This is a basic example and is not secure for production use
-        return userData;
+        using (var aes = Aes.Create())
+        {
+            aes.Key = SHA256.HashData(Encoding.UTF8.GetBytes(key));
+            aes.Mode = CipherMode.CFB;
+            aes.Padding = PaddingMode.PKCS7;
+
+            using (var encryptor = aes.CreateEncryptor())
+            {
+                return encryptor.TransformFinalBlock(userData, 0, userData.Length);
+            }
+        }
     }
 
     public byte[] Unprotect(byte[] protectedData)
     {
-        // Implement your custom decryption logic using the provided key
-        // Note: This is a basic example and is not secure for production use
-        return protectedData;
+        using (var aes = Aes.Create())
+        {
+            aes.Key = SHA256.HashData(Encoding.UTF8.GetBytes(key));
+            aes.Mode = CipherMode.CFB;
+            aes.Padding = PaddingMode.PKCS7;
+
+            using (var decryptor = aes.CreateDecryptor())
+            {
+                return decryptor.TransformFinalBlock(protectedData, 0, protectedData.Length);
+            }
+        }
     }
 }
