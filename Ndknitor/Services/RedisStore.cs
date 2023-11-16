@@ -1,9 +1,13 @@
+using System.Text;
+using Microsoft.Extensions.Options;
+using Ndknitor.System;
+using StackExchange.Redis;
+
 public static class RedisStoreServiceCollectionExtensions
 {
     public static void AddRedisStore(this IServiceCollection services, Action<RedisSessionOptions> configureOptions = null)
     {
-        services.AddSingleton<IRedisSession, RedisSession>();
-        services.AddSingleton<GlobalRedisSession>();
+        services.AddSingleton<IRedisStore, RedisStore>();
         if (configureOptions != null)
         {
             services.Configure(configureOptions);
@@ -20,18 +24,18 @@ public interface IRedisStore
 {
     public TimeSpan Timeout { get; }
     public T Get<T>(string key);
-    public async Task<T> GetAsync<T>(string key);
+    public Task<T> GetAsync<T>(string key);
     public bool Set(string key, object value, TimeSpan? expiry = null);
-    public async Task<bool> SetAsync(string key, object value, TimeSpan? expiry = null);
+    public Task<bool> SetAsync(string key, object value, TimeSpan? expiry = null);
     public bool Exist(string key);
-    public async Task<bool> ExistAsync(string key);
+    public Task<bool> ExistAsync(string key);
     public bool Remove(string key);
-    public async Task<bool> RemoveAsync(string key);
+    public Task<bool> RemoveAsync(string key);
     public IEnumerable<string> GetAllKeys();
-    public async Task<IEnumerable<string>> GetAllKeysAsync();
+    public Task<IEnumerable<string>> GetAllKeysAsync();
 }
 
-public class RedisStore
+public class RedisStore : IRedisStore
 {
     private readonly IDatabase redis;
     public RedisStore(IHttpContextAccessor accessor, IDatabase redis, IOptions<RedisSessionOptions> options)
@@ -89,5 +93,15 @@ public class RedisStore
     public async Task<bool> RemoveAsync(string key)
     {
         return await redis.KeyDeleteAsync(key);
+    }
+
+    public IEnumerable<string> GetAllKeys()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<string>> GetAllKeysAsync()
+    {
+        throw new NotImplementedException();
     }
 }
