@@ -28,10 +28,19 @@ public class StringBasedDataProtectionProvider : IDataProtectionProvider
 public class StringBasedDataProtector : IDataProtector
 {
     private readonly string key;
+    private readonly Aes aes;
+    private readonly ICryptoTransform encryptor;
+    private readonly ICryptoTransform decryptor;
 
     public StringBasedDataProtector(string key)
     {
         this.key = key;
+        aes = Aes.Create();
+        aes.Key = SHA256.HashData(Encoding.UTF8.GetBytes(key));
+        aes.Mode = CipherMode.CFB;
+        aes.Padding = PaddingMode.PKCS7;
+        encryptor = aes.CreateEncryptor();
+        decryptor = aes.CreateDecryptor();
     }
 
     public IDataProtector CreateProtector(string purpose)
@@ -41,31 +50,33 @@ public class StringBasedDataProtector : IDataProtector
 
     public byte[] Protect(byte[] userData)
     {
-        using (var aes = Aes.Create())
-        {
-            aes.Key = SHA256.HashData(Encoding.UTF8.GetBytes(key));
-            aes.Mode = CipherMode.CFB;
-            aes.Padding = PaddingMode.PKCS7;
+        return encryptor.TransformFinalBlock(userData, 0, userData.Length);
+        // using (var aes = Aes.Create())
+        // {
+        //     aes.Key = SHA256.HashData(Encoding.UTF8.GetBytes(key));
+        //     aes.Mode = CipherMode.CFB;
+        //     aes.Padding = PaddingMode.PKCS7;
 
-            using (var encryptor = aes.CreateEncryptor())
-            {
-                return encryptor.TransformFinalBlock(userData, 0, userData.Length);
-            }
-        }
+        //     using (var encryptor = aes.CreateEncryptor())
+        //     {
+        //         return encryptor.TransformFinalBlock(userData, 0, userData.Length);
+        //     }
+        // }
     }
 
     public byte[] Unprotect(byte[] protectedData)
     {
-        using (var aes = Aes.Create())
-        {
-            aes.Key = SHA256.HashData(Encoding.UTF8.GetBytes(key));
-            aes.Mode = CipherMode.CFB;
-            aes.Padding = PaddingMode.PKCS7;
+        return decryptor.TransformFinalBlock(protectedData, 0, protectedData.Length);
+        // using (var aes = Aes.Create())
+        // {
+        //     aes.Key = SHA256.HashData(Encoding.UTF8.GetBytes(key));
+        //     aes.Mode = CipherMode.CFB;
+        //     aes.Padding = PaddingMode.PKCS7;
 
-            using (var decryptor = aes.CreateDecryptor())
-            {
-                return decryptor.TransformFinalBlock(protectedData, 0, protectedData.Length);
-            }
-        }
+        //     using (var decryptor = aes.CreateDecryptor())
+        //     {
+        //         return decryptor.TransformFinalBlock(protectedData, 0, protectedData.Length);
+        //     }
+        // }
     }
 }
