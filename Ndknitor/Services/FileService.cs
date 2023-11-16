@@ -19,13 +19,10 @@ public class ApplicationFileService : IFileService
         string savePath = Path.Combine(_environment.WebRootPath, fileName);
         if (File.Exists(savePath))
         {
-            await Task.Run(() =>
-            {
-                File.Delete(savePath);
-            });
-            return true;
+            File.Delete(savePath);
+            return await Task.FromResult(true);
         }
-        return false;
+        return await Task.FromResult(false);
     }
 
     public Stream Get(string url)
