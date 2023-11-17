@@ -224,7 +224,6 @@ The `KeyBasedCookieDataFormat` class is a custom implementation of the `ISecureD
 ### Initialization
 
 ```csharp
-// Configure services in Startup.cs
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
     options.TicketDataFormat = new KeyBasedCookieDataFormat("your-super-secret-key");
