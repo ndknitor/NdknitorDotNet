@@ -215,7 +215,7 @@ public static T UserId<T>(this ClaimsPrincipal principal, string key = ClaimType
 
 The `Ndknitor.Services.Web` namespace contains some pre-defined services and helper for Asp.Net to make it easily to scalable.
 
-# KeyBasedCookieDataFormat Class
+## `KeyBasedCookieDataFormat` Class
 
 The `KeyBasedCookieDataFormat` class is a custom implementation of the `ISecureDataFormat<AuthenticationTicket>` interface in ASP.NET Core. It is designed to provide cookie authentication with the ability to use a customizable encryption key. This class is especially friendly with horizontal scaling as it allows you to control the key used for encrypting and decrypting authentication tickets.
 
@@ -225,18 +225,10 @@ The `KeyBasedCookieDataFormat` class is a custom implementation of the `ISecureD
 
 ```csharp
 // Configure services in Startup.cs
-
-public void ConfigureServices(IServiceCollection services)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
-    // ... other configurations ...
-
-    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-    {
-        options.TicketDataFormat = new KeyBasedCookieDataFormat("your-super-secret-key");
-    });
-
-    // ... other configurations ...
-}
+    options.TicketDataFormat = new KeyBasedCookieDataFormat("your-super-secret-key");
+});
 ```
 ### Key Features
 
