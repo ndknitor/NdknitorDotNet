@@ -1,13 +1,17 @@
 [![Unit testing CI/CD for Ndknitor library](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml)
 ---
+
 This class library mainly write for request validation in ASP.NET Core and some extension method for DbContext in EF Core
 ---
+
 **Command to download package:**
 
 ```bash
 dotnet add package Ndknitor
 ```
+
 ---
+
 # Ndknitor.Web.Validations Namespace
 
 - **AllowedExtensionsAttribute**: Validates file extensions for `IFormFile` uploads.
@@ -34,9 +38,11 @@ The `Ndknitor.System` namespace contains utility and extension methods that prov
 ## `MapProperty` Extension Method
 
 ### Description
+
 The `MapProperty` extension method allows you to map a property of elements in one collection to another collection of values with the same length. This can be helpful when you need to update or synchronize properties between two collections.
 
 ### Signature
+
 ```csharp
 public static IEnumerable<TSource> MapProperty<TSource, TResult>(
     this IEnumerable<TSource> targetArray,
@@ -49,10 +55,12 @@ public static IEnumerable<TSource> MapProperty<TSource, TResult>(
 - `sourceArray` (IEnumerable<TResult>): The source collection containing the values to map to the target collection.
 
 ### Exceptions
+
 - `ArgumentNullException`: If any of the input parameters (`targetArray`, `propertyExpression`, `sourceArray`) is `null`.
 - `ArgumentException`: If the `targetArray` and `sourceArray` have different lengths.
 
 ### Behavior
+
 - The method maps the specified property of elements in the `targetArray` to corresponding values in the `sourceArray`.
 - It iterates through both collections and updates the property value in the `targetArray` with the corresponding value from the `sourceArray`.
 
@@ -73,6 +81,7 @@ employees.MapProperty(e => e.Salary, salaries);
 
 // The 'Salary' property of 'employees' will be updated with values from 'salaries'.
 ```
+
 In this example, the `MapProperty` extension method is used to map the `Salary` property of `Employee` objects in the `employees` collection to values from the `salaries` collection.
 
 # ToJsonClass Extension Method
@@ -112,9 +121,11 @@ MyClass myObject = jsonString.ToJsonClass<MyClass>();
 ## `ToJson` Extension Method
 
 ### Description
+
 The `ToJson` extension method is used to serialize an object to its JSON representation. It provides a convenient way to convert an object into a JSON string, which can be useful for data exchange, storage, or communication with other systems.
 
 ### Signature
+
 ```csharp
 public static string ToJson(this object obj)
 ```
@@ -122,7 +133,6 @@ public static string ToJson(this object obj)
 - `obj` (object): The object to be serialized to JSON.
 
 **Returns:** A JSON string representation of the object.
-
 
 # ToBson Extension Method
 
@@ -182,13 +192,14 @@ byte[] bsonData = GetBsonData();
 MyClass myObject = bsonData.ToBsonClass<MyClass>();
 ```
 
-
 ## `UserId<T>` Extension Method
 
 ### Description
+
 The `UserId<T>` extension method extends the functionality of the `ClaimsPrincipal` class. It is used to extract a specific user identifier from the claims associated with a `ClaimsPrincipal` object. The user identifier is often used to uniquely identify a user in authentication and authorization scenarios.
 
 ### Signature
+
 ```csharp
 public static T UserId<T>(this ClaimsPrincipal principal, string key = ClaimTypes.NameIdentifier)
 ```
@@ -200,6 +211,44 @@ public static T UserId<T>(this ClaimsPrincipal principal, string key = ClaimType
 
 ---
 
+# Ndknitor.Services.Web Namespace
+
+The `Ndknitor.Services.Web` namespace contains some pre-defined services and helper for Asp.Net to make it easily to scalable.
+
+# KeyBasedCookieDataFormat Class
+
+The `KeyBasedCookieDataFormat` class is a custom implementation of the `ISecureDataFormat<AuthenticationTicket>` interface in ASP.NET Core. It is designed to provide cookie authentication with the ability to use a customizable encryption key. This class is especially friendly with horizontal scaling as it allows you to control the key used for encrypting and decrypting authentication tickets.
+
+## Usage
+
+### Initialization
+
+```csharp
+// Configure services in Startup.cs
+
+public void ConfigureServices(IServiceCollection services)
+{
+    // ... other configurations ...
+
+    builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+    {
+        options.TicketDataFormat = new KeyBasedCookieDataFormat("your-super-secret-key");
+    });
+
+    // ... other configurations ...
+}
+```
+### Key Features
+
+It have flexibility in handling the encryption key. By allowing you to provide a custom key during initialization, it becomes highly suitable for scenarios involving horizontal scaling. Different instances of your application can share the same authentication key, ensuring seamless authentication across the scaled-out instances.
+
+### Description
+The capability is particularly useful in distributed environments, such as microservices architectures, where multiple instances of the application may need to authenticate users independently while sharing the same user authentication information.
+
+Remember to keep your authentication key secure and do not expose it to unauthorized personnel.
+
+Feel free to adjust the class and the provided key based on your specific security and scalability requirements.
+
 # Ndknitor.EFCore Namespace
 
 The `Ndknitor.EFCore` namespace contains extension methods that provide functionality related to auto-increment primary keys in Entity Framework Core applications.
@@ -207,9 +256,11 @@ The `Ndknitor.EFCore` namespace contains extension methods that provide function
 ## `GetLastInsertedId<TEntity, TKey>` Extension Method
 
 ### Description
+
 The `GetLastInsertedId<TEntity, TKey>` extension method is used to retrieve the last inserted auto-increment primary key value of a specific entity type `TEntity` from the database context. This method can be helpful when you need to obtain the ID of a newly inserted entity.
 
 ### Signature
+
 ```csharp
 public static TKey GetLastInsertedId<TEntity, TKey>(this DbContext context)
 ```
@@ -221,9 +272,11 @@ public static TKey GetLastInsertedId<TEntity, TKey>(this DbContext context)
 ## `GetInsertId<TEntity, TKey>` Extension Method
 
 ### Description
+
 The `GetInsertId<TEntity, TKey>` extension method is used to retrieve the auto-increment primary key value of a newly inserted entity of type `TEntity` from the database context. This method can be used to obtain the ID of an entity immediately after inserting it.
 
 ### Signature
+
 ```csharp
 public static TKey GetInsertId<TEntity, TKey>(this DbContext context)
 ```
@@ -235,9 +288,11 @@ public static TKey GetInsertId<TEntity, TKey>(this DbContext context)
 ## `GetInsertEntity<TEntity, TKey>` Extension Method
 
 ### Description
+
 The `GetInsertEntity<TEntity, TKey>` extension method is used to retrieve the newly inserted entity of type `TEntity` from the database context after insertion and attach its auto-increment primary key value of type `TKey` to the entity parameter. This method is useful when you need to work with the entire entity immediately after insertion and want to have access to the generated primary key value.
 
 ### Signature
+
 ```csharp
 public static TEntity GetInsertEntity<TEntity, TKey>(this DbContext context, TEntity entity)
 ```
@@ -250,9 +305,11 @@ public static TEntity GetInsertEntity<TEntity, TKey>(this DbContext context, TEn
 ## `GetInsertEntities<TEntity, TKey>` Extension Method
 
 ### Description
+
 The `GetInsertEntities<TEntity, TKey>` extension method is used to retrieve a collection of newly inserted entities of type `TEntity` from the database context after insertion. For each entity in the collection, it attaches its auto-increment primary key value of type `TKey` to the entity parameter. This method is helpful when you need to work with multiple inserted entities immediately after insertion and want to have access to the generated primary key values for each entity.
 
 ### Signature
+
 ```csharp
 public static IEnumerable<TEntity> GetInsertEntities<TEntity, TKey>(this DbContext context, IEnumerable<TEntity> entities)
 ```
@@ -262,13 +319,14 @@ public static IEnumerable<TEntity> GetInsertEntities<TEntity, TKey>(this DbConte
 
 **Returns:** A collection of newly inserted entities of type `TEntity` along with their auto-increment primary key values of type `TKey`.
 
-
 ## `Paginate<T>` Extension Method
 
 ### Description
+
 The `Paginate<T>` extension method allows you to perform pagination on an `IQueryable<T>` by specifying the desired page number and page size. It retrieves a specific page of results from the queryable data.
 
 ### Signature
+
 ```csharp
 public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, int pageSize = int.MaxValue)
 ```
@@ -282,9 +340,11 @@ public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, 
 ## `Paginate<T>` Extension Method with Total Count
 
 ### Description
+
 The `Paginate<T>` extension method with a total count out parameter allows you to perform pagination on an `IQueryable<T>` while also getting the total number of records in the original query.
 
 ### Signature
+
 ```csharp
 public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, int pageSize, out int total)
 ```
@@ -299,9 +359,11 @@ public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, 
 ## `DeferredPaginate<T>` Extension Method with Deferred Total Count
 
 ### Description
+
 The `DeferredPaginate<T>` extension method with a deferred total count out parameter allows you to perform pagination on an `IQueryable<T>` while also deferring the total count calculation until a later time, potentially reducing the number of database round trips.
 
 ### Signature
+
 ```csharp
 public static IQueryable<T> DeferredPaginate<T>(this IQueryable<T> queryable, int page, int pageSize, out QueryFutureValue<int> total)
 ```
@@ -331,9 +393,11 @@ In this example, the `Paginate` extension method is used to retrieve the first p
 ## `OrderBy<T>` Extension Method
 
 ### Description
+
 The `OrderBy<T>` extension method allows you to perform sorting and ordering on an `IQueryable<T>` by specifying one or more columns to order by and whether each column should be in descending order. It provides a flexible way to order query results dynamically based on multiple columns.
 
 ### Signature
+
 ```csharp
 public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, IEnumerable<string> orderBy, IEnumerable<bool> desc)
 ```
@@ -345,6 +409,7 @@ public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, IEnumer
 **Returns:** An IOrderedQueryable<T> that represents the sorted query.
 
 ### Behavior
+
 - The method allows you to specify multiple columns to order by, and for each column, whether it should be ordered in ascending or descending order.
 - It supports dynamic sorting based on the provided column names and sort directions.
 
