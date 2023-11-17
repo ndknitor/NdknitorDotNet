@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ndknitor", "Ndknitor\Ndknitor.csproj", "{EED587D7-9922-4D6E-A5A9-69838D8D7F4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ndknitor.Console", "Ndknitor.Console\Ndknitor.Console.csproj", "{3D78D84E-E0FF-4ECC-B5B5-D144C9DC2C1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ndknitor.Test", "Ndknitor.Test\Ndknitor.Test.csproj", "{DE5D5B19-ED2B-4A08-A501-CADBA2B1658A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EED587D7-9922-4D6E-A5A9-69838D8D7F4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EED587D7-9922-4D6E-A5A9-69838D8D7F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EED587D7-9922-4D6E-A5A9-69838D8D7F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EED587D7-9922-4D6E-A5A9-69838D8D7F4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D78D84E-E0FF-4ECC-B5B5-D144C9DC2C1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D78D84E-E0FF-4ECC-B5B5-D144C9DC2C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D78D84E-E0FF-4ECC-B5B5-D144C9DC2C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D78D84E-E0FF-4ECC-B5B5-D144C9DC2C1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE5D5B19-ED2B-4A08-A501-CADBA2B1658A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE5D5B19-ED2B-4A08-A501-CADBA2B1658A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE5D5B19-ED2B-4A08-A501-CADBA2B1658A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE5D5B19-ED2B-4A08-A501-CADBA2B1658A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
