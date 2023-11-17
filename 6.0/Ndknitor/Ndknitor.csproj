@@ -8,7 +8,7 @@
     <PackageReadmeFile>NREADME.md</PackageReadmeFile>
     <Nullable>disable</Nullable>
     <PackageId>Ndknitor</PackageId>
-    <Version>6.2.0</Version>
+    <Version>6.2.1</Version>
     <Authors>Ngo Dinh Khoi Nguyen</Authors>
     <Company>Ndknitor</Company>
     <ProjectUrl>https://github.com/ndknitor/NdknitorDotNet</ProjectUrl>
@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.11" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
     <None Include="NREADME.md" Pack="true" PackagePath="/" />
-    <None Include="../LICENSE.md">
+    <None Include="../../LICENSE.md">
       <Pack>true</Pack>
       <PackagePath>/</PackagePath>
     </None>
