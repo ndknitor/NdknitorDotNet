@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Filters;
-namespace Ndknitor.System;
+namespace Ndknitor.Services.Web;
 public class NonAuthorizedAttribute : ActionFilterAttribute
 {
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
