@@ -1,4 +1,6 @@
 [![Unit testing CI/CD for Ndknitor library](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml)
+[![NuGet](https://img.shields.io/nuget/v/ndknitor.svg)](https://www.nuget.org/packages/Ndknitor)
+
 ---
 
 This class library mainly write for request validation in ASP.NET Core and some extension method for DbContext in EF Core
