@@ -1,5 +1,5 @@
-[![Unit testing CI/CD for Ndknitor library](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml)
 [![NuGet](https://img.shields.io/nuget/v/ndknitor.svg)](https://www.nuget.org/packages/Ndknitor)
+[![Unit test    ](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml)
 
 ---
 
