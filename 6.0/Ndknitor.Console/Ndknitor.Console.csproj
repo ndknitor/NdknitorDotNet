@@ -5,6 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.10" />
     <PackageReference Include="NRedisStack" Version="0.10.1" />
   </ItemGroup>
 
