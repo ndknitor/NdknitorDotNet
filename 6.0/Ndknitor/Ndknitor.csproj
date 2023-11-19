@@ -8,7 +8,7 @@
     <PackageReadmeFile>NREADME.md</PackageReadmeFile>
     <Nullable>disable</Nullable>
     <PackageId>Ndknitor</PackageId>
-    <Version>6.2.1</Version>
+    <Version>6.2.2</Version>
     <Authors>Ngo Dinh Khoi Nguyen</Authors>
     <Company>Ndknitor</Company>
     <ProjectUrl>https://github.com/ndknitor/NdknitorDotNet</ProjectUrl>
