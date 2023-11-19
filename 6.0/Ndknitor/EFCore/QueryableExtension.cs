@@ -54,6 +54,81 @@ public static class QueryableExtension
         total = queryable.DeferredCount().FutureValue();
         return queryable.Skip(skip).Take(pageSize);
     }
+
+    public static IQueryable<T> CursorPaginate<T, TKey>(this IQueryable<T> queryable, TKey cursor, int pageSize = int.MaxValue) where T : class
+    {
+        if (pageSize < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than or equal to 1.");
+        }
+
+        if (cursor == null)
+        {
+            return queryable.Take(pageSize);
+        }
+
+        var keyProperty = typeof(T).GetProperties().FirstOrDefault(p => p.PropertyType == typeof(TKey));
+
+        if (keyProperty == null)
+        {
+            throw new InvalidOperationException("The entity does not have a property of type TKey.");
+        }
+
+        return queryable
+            .Where(BuildCursorPredicate<T, TKey>(cursor, keyProperty))
+            .Take(pageSize);
+    }
+    public static IQueryable<T> CursorPaginate<T, TKey>(this IQueryable<T> queryable, TKey cursor, int pageSize, out int total) where T : class
+    {
+        if (pageSize < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than or equal to 1.");
+        }
+        total = queryable.Count();
+        if (cursor == null)
+        {
+            return queryable.Take(pageSize);
+        }
+
+        var keyProperty = typeof(T).GetProperties().FirstOrDefault(p => p.PropertyType == typeof(TKey));
+
+        if (keyProperty == null)
+        {
+            throw new InvalidOperationException("The entity does not have a property of type TKey.");
+        }
+
+        return queryable
+            .Where(BuildCursorPredicate<T, TKey>(cursor, keyProperty))
+            .Take(pageSize);
+    }
+    public static IQueryable<T> DeferredCursorPaginate<T, TKey>(this IQueryable<T> queryable, TKey cursor, int pageSize, out QueryFutureValue<int> total) where T : class
+    {
+        if (pageSize < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than or equal to 1.");
+        }
+
+        var keyProperty = typeof(T).GetProperties().FirstOrDefault(p => p.PropertyType == typeof(TKey));
+
+        if (keyProperty == null)
+        {
+            throw new InvalidOperationException("The entity does not have a property of type TKey.");
+        }
+
+        total = queryable.DeferredCount().FutureValue();
+
+        if (cursor == null)
+        {
+            return queryable.Take(pageSize);
+        }
+
+        var predicate = BuildCursorPredicate<T, TKey>(cursor, keyProperty);
+
+        return queryable
+            .Where(predicate)
+            .Take(pageSize);
+    }
+
     public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName, bool isDescending)
     {
         var lambdaExpression = ToLambda<T>(propertyName);
@@ -67,7 +142,6 @@ public static class QueryableExtension
             return source.OrderBy(lambdaExpression);
         }
     }
-
     public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, IEnumerable<string> orderBy, IEnumerable<bool> desc)
     {
         IOrderedQueryable<T> orderedQuery = null;
@@ -182,13 +256,40 @@ public static class QueryableExtension
 
         return false;
     }
-
-
     private static Expression<Func<T, object>> ToLambda<T>(string propertyName)
     {
         var parameter = Expression.Parameter(typeof(T));
         var property = Expression.Property(parameter, propertyName);
         var propAsObject = Expression.Convert(property, typeof(object));
         return Expression.Lambda<Func<T, object>>(propAsObject, parameter);
+    }
+    private static Expression<Func<T, bool>> BuildCursorPredicate<T, TKey>(TKey cursor, PropertyInfo keyProperty)
+    {
+        if (!IsNumericType(typeof(TKey)))
+        {
+            throw new InvalidOperationException("Cursor pagination does not support non-number primary key.");
+        }
+        var parameter = Expression.Parameter(typeof(T));
+        var propertyAccess = Expression.Property(parameter, keyProperty);
+        var cursorValue = Expression.Constant(cursor, typeof(TKey));
+
+        // Assuming TKey is a comparable type
+        var predicateBody = Expression.GreaterThan(propertyAccess, cursorValue);
+
+        return Expression.Lambda<Func<T, bool>>(predicateBody, parameter);
+    }
+    private static bool IsNumericType(Type type)
+    {
+        return type == typeof(byte) ||
+               type == typeof(sbyte) ||
+               type == typeof(short) ||
+               type == typeof(ushort) ||
+               type == typeof(int) ||
+               type == typeof(uint) ||
+               type == typeof(long) ||
+               type == typeof(ulong) ||
+               type == typeof(float) ||
+               type == typeof(double) ||
+               type == typeof(decimal);
     }
 }
