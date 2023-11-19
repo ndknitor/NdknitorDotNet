@@ -1,4 +1,4 @@
-name: Unit testing CI/CD for Ndknitor library
+name: Unit test
 
 on:
   push:
