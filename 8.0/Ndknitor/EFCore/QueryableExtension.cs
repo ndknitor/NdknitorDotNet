@@ -54,6 +54,7 @@ public static class QueryableExtension
         total = queryable.DeferredCount().FutureValue();
         return queryable.Skip(skip).Take(pageSize);
     }
+
     public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName, bool isDescending)
     {
         var lambdaExpression = ToLambda<T>(propertyName);
@@ -67,7 +68,6 @@ public static class QueryableExtension
             return source.OrderBy(lambdaExpression);
         }
     }
-
     public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, IEnumerable<string> orderBy, IEnumerable<bool> desc)
     {
         IOrderedQueryable<T> orderedQuery = null;
@@ -182,8 +182,6 @@ public static class QueryableExtension
 
         return false;
     }
-
-
     private static Expression<Func<T, object>> ToLambda<T>(string propertyName)
     {
         var parameter = Expression.Parameter(typeof(T));

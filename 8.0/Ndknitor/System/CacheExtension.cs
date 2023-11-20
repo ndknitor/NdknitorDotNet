@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Caching.Distributed;
-using Ndknitor.System;
 namespace Ndknitor.System;
 public static class CacheExtension
 {
