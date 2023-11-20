@@ -240,8 +240,6 @@ The capability is particularly useful in distributed environments, such as micro
 
 Remember to keep your authentication key secure and do not expose it to unauthorized personnel.
 
-Feel free to adjust the class and the provided key based on your specific security and scalability requirements.
-
 # Ndknitor.EFCore Namespace
 
 The `Ndknitor.EFCore` namespace contains extension methods that provide functionality related to auto-increment primary keys in Entity Framework Core applications.
