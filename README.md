@@ -1,6 +1,6 @@
 [![NuGet](https://img.shields.io/nuget/v/ndknitor.svg)](https://www.nuget.org/packages/Ndknitor)
-[![Unit test](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet.yml)
-
+[![Unit test for version 6](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet6.yml/badge.svg)](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet6.yml)
+[![Unit test for version 8](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet8.yml/badge.svg)](https://github.com/ndknitor/NdknitorDotNet/actions/workflows/dotnet8.yml)
 ---
 
 This class library mainly write for request validation in ASP.NET Core and some extension method for DbContext in EF Core
