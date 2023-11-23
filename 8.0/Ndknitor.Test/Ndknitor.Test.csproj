@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ndknitor8.0\Ndknitor.csproj" />
+    <ProjectReference Include="..\Ndknitor\Ndknitor.csproj" />
   </ItemGroup>
 
 </Project>
