@@ -2,6 +2,9 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
 namespace Ndknitor.Services.Web;
+/// <summary>
+/// This provide cookie authentication with the ability to use a customizable encryption key.
+/// </summary>
 public class KeyBasedCookieDataFormat : ISecureDataFormat<AuthenticationTicket>
 {
     private readonly byte[] encryptionKey;

@@ -2,6 +2,14 @@ using System.Security.Claims;
 namespace Ndknitor.System;
 public static class ClaimsPrincipalExtension
 {
+    /// <summary>
+    /// Extract a specific user identifier from the claims associated with a ClaimsPrincipal object.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="principal"></param>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static T UserId<T>(this ClaimsPrincipal principal, string key = ClaimTypes.NameIdentifier)
     where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
     {
