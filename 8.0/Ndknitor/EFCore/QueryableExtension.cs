@@ -4,6 +4,15 @@ using Z.EntityFramework.Plus;
 namespace Ndknitor.EFCore;
 public static class QueryableExtension
 {
+    /// <summary>
+    /// Method allows you to perform pagination on an IQueryable<T> by specifying the desired page number and page size.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="queryable"></param>
+    /// <param name="page"></param>
+    /// <param name="pageSize"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, int pageSize = int.MaxValue)
     {
         if (page < 1)
@@ -20,6 +29,16 @@ public static class QueryableExtension
 
         return queryable.Skip(skip).Take(pageSize);
     }
+    /// <summary>
+    /// Method allows you to perform pagination on an IQueryable<T> while also getting the total number of records in the original query.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="queryable"></param>
+    /// <param name="page"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="total"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static IQueryable<T> Paginate<T>(this IQueryable<T> queryable, int page, int pageSize, out int total)
     {
         total = 0;
@@ -37,6 +56,16 @@ public static class QueryableExtension
         total = queryable.Count();
         return queryable.Skip(skip).Take(pageSize);
     }
+    /// <summary>
+    /// Method allows you to perform pagination on an IQueryable<T> while also deferring the total count calculation until a later time, potentially reducing the number of database round trips.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="queryable"></param>
+    /// <param name="page"></param>
+    /// <param name="pageSize"></param>
+    /// <param name="total"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static IQueryable<T> DeferredPaginate<T>(this IQueryable<T> queryable, int page, int pageSize, out QueryFutureValue<int> total)
     {
         total = null;
@@ -68,6 +97,14 @@ public static class QueryableExtension
             return source.OrderBy(lambdaExpression);
         }
     }
+    /// <summary>
+    /// Method allows you to perform sorting and ordering on an IQueryable<T> by specifying one or more columns to order by and whether each column should be in descending order.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"></param>
+    /// <param name="orderBy"></param>
+    /// <param name="desc"></param>
+    /// <returns></returns>
     public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, IEnumerable<string> orderBy, IEnumerable<bool> desc)
     {
         IOrderedQueryable<T> orderedQuery = null;
