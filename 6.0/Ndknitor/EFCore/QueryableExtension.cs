@@ -119,6 +119,37 @@ public static class QueryableExtension
 
         return orderedQuery;
     }
+    public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, IEnumerable<string> orderBy, IEnumerable<bool> desc)
+    {
+        if (orderBy == null || !orderBy.Any())
+        {
+            return source;
+        }
+
+        if (desc == null)
+        {
+            // If desc is not provided, default to all false values.
+            desc = Enumerable.Repeat(false, orderBy.Count());
+        }
+        else if (orderBy.Count() != desc.Count())
+        {
+            // If desc is provided but shorter than orderBy, pad it with false values.
+            var missingCount = orderBy.Count() - desc.Count();
+            desc = desc.Concat(Enumerable.Repeat(false, missingCount)).ToList();
+        }
+
+        for (int i = 0; i < orderBy.Count(); i++)
+        {
+            var propertyName = orderBy.ElementAt(i);
+            var isDescending = desc.ElementAt(i);
+            var lambdaExpression = ToLambda<T>(propertyName);
+            source = isDescending
+                ? source.ThenByDescending(lambdaExpression)
+                : source.ThenBy(lambdaExpression);
+        }
+
+        return source;
+    }
     public static IQueryable<TEntity> SelectFields<TEntity>(this IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] includeColumns)
     where TEntity : class
     {
