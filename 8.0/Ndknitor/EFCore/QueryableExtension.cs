@@ -156,6 +156,47 @@ public static class QueryableExtension
 
         return orderedQuery;
     }
+    public static IOrderedQueryable<T> ThenBy<T>(this IQueryable<T> source, IEnumerable<string> orderBy, IEnumerable<bool> desc)
+    {
+        IOrderedQueryable<T> orderedQuery = null;
+        if (orderBy == null || !orderBy.Any())
+        {
+            var isDescending = desc != null && desc.Count() > 0 ? desc.ElementAt(0) : false;
+            if (isDescending)
+            {
+                return source.OrderByDescending(e => e);
+            }
+            else
+            {
+                return source.OrderBy(e => e);
+            }
+        }
+
+        if (desc == null)
+        {
+            // If desc is not provided, default to all false values.
+            desc = Enumerable.Repeat(false, orderBy.Count());
+        }
+        else if (orderBy.Count() != desc.Count())
+        {
+            // If desc is provided but shorter than orderBy, pad it with false values.
+            var missingCount = orderBy.Count() - desc.Count();
+            desc = desc.Concat(Enumerable.Repeat(false, missingCount)).ToList();
+        }
+
+        for (int i = 0; i < orderBy.Count(); i++)
+        {
+            var propertyName = orderBy.ElementAt(i);
+            var isDescending = desc.ElementAt(i);
+            var lambdaExpression = ToLambda<T>(propertyName);
+            orderedQuery = isDescending
+                ? orderedQuery.ThenByDescending(lambdaExpression)
+                : orderedQuery.ThenBy(lambdaExpression);
+        }
+
+        return orderedQuery;
+    }
+
     public static IQueryable<TEntity> SelectFields<TEntity>(this IQueryable<TEntity> query, params Expression<Func<TEntity, object>>[] includeColumns)
     where TEntity : class
     {
