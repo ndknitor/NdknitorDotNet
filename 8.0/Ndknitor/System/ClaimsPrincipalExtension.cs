@@ -10,14 +10,10 @@ public static class ClaimsPrincipalExtension
     /// <param name="key"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public static T NameIdentifier<T>(this ClaimsPrincipal principal, string key = ClaimTypes.NameIdentifier)
+    public static T NameIdentifier<T>(this ClaimsPrincipal principal)
     where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable
     {
-        if (typeof(T) == typeof(float) || typeof(T) == typeof(double))
-        {
-            throw new ArgumentException("Floating-point types are not supported as TKey.");
-        }
-        return (T)Convert.ChangeType(principal.FindFirstValue(key), typeof(T));
+        return (T)Convert.ChangeType(principal.FindFirstValue(ClaimTypes.NameIdentifier), typeof(T));
     }
     public static T GetValue<T>(this ClaimsPrincipal principal, string claimType)
     {
