@@ -4,8 +4,8 @@ namespace Ndknitor.System;
 public class PBKDF2Hasher
 {
     public int Iteration { get; set; } = 1000000;
-    public int SaltSize { get; set; } = 32;
-    public int HashSize { get; set; } = 32;
+    public int SaltSize { get; set; } = 16;
+    public int HashSize { get; set; } = 48;
     public HashAlgorithmName AlgorithmName { get; set; } = HashAlgorithmName.SHA512;
     public string Hash(string password)
     {
