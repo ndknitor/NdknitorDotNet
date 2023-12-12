@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Security.Cryptography;
 namespace Ndknitor.System;
-public class PBKDF2Hasher
+public class PBKDF2Hash
 {
-    public int Iteration { get; set; } = 1000000;
+    public int Iteration { get; set; } = 200000;
     public int SaltSize { get; set; } = 16;
     public int HashSize { get; set; } = 48;
     public HashAlgorithmName AlgorithmName { get; set; } = HashAlgorithmName.SHA512;

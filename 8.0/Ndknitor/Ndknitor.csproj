@@ -7,6 +7,7 @@
     <OutputType>Library</OutputType>
     <PackageReadmeFile>NREADME.md</PackageReadmeFile>
     <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageId>Ndknitor</PackageId>
     <Version>8.0.1</Version>
     <Authors>Ngo Dinh Khoi Nguyen</Authors>
@@ -22,7 +23,6 @@
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
-    <PackageReference Include="SCrypt" Version="2.0.0.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
     <PackageReference Include="Z.EntityFramework.Plus.EFCore" Version="8.101.0" />
     <None Include="NREADME.md" Pack="true" PackagePath="/" />

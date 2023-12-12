@@ -1,12 +1,16 @@
 ﻿
+using System.Diagnostics;
 using System.Text;
 using Ndknitor.System;
 
-PBKDF2Hasher hasher = new PBKDF2Hasher{
-
-};
+SCryptHash hasher = new SCryptHash{ };
+//PBKDF2Hash hasher = new PBKDF2Hash{};
 byte[] password = Encoding.UTF8.GetBytes("123456");
+Stopwatch stopwatch = new Stopwatch();
+stopwatch.Start();
 byte[] hash = hasher.Hash(password);
-Console.WriteLine(BitConverter.ToString(hash).ToLower().Replace("-", null));
-Console.WriteLine(hasher.Verify(password, hash));
+stopwatch.Stop();
+Console.WriteLine(stopwatch.ElapsedMilliseconds);
+// Console.WriteLine(BitConverter.ToString(hash).ToLower().Replace("-", null));
+// Console.WriteLine(hasher.Verify(password, hash));
 
