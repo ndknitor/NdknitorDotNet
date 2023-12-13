@@ -66,22 +66,20 @@ public static class QueryableExtension
     /// <param name="total"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static IQueryable<T> DeferredPaginate<T>(this IQueryable<T> queryable, int page, int pageSize, out QueryFutureValue<int> total)
+    public static QueryFutureEnumerable<T> DeferredPaginate<T>(this IQueryable<T> queryable, int page, int pageSize, out QueryFutureValue<int> total)
     {
         total = null;
         if (page < 1)
         {
-            return queryable;
+            return queryable.Future();
         }
-
         if (pageSize < 1)
         {
             throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than or equal to 1.");
         }
-
         int skip = (page - 1) * pageSize;
         total = queryable.DeferredCount().FutureValue();
-        return queryable.Skip(skip).Take(pageSize);
+        return queryable.Skip(skip).Take(pageSize).Future();
     }
 
     public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName, bool isDescending)
