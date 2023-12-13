@@ -13,11 +13,14 @@ public class SCryptHash
     {
         byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
         byte[] hash = Scrypt(password, salt, Cost, BlockSize, Parallel, HashSize);
-        //SCrypt.ComputeDerivedKey(password, salt, Cost, BlockSize, Parallel, null, HashSize);
         var combinedBytes = new byte[salt.Length + hash.Length];
         Array.Copy(salt, 0, combinedBytes, 0, salt.Length);
         Array.Copy(hash, 0, combinedBytes, salt.Length, hash.Length);
         return combinedBytes;
+    }
+    public byte[] RawHash(byte[] password, byte[] salt, int cost, int blockSize, int parallel, int size)
+    {
+        return Scrypt(password, salt, cost, blockSize, parallel, size);
     }
     public bool Verify(byte[] password, byte[] hashedPassword)
     {
@@ -29,7 +32,7 @@ public class SCryptHash
         //SCrypt.ComputeDerivedKey(password, salt, Cost, BlockSize, Parallel, null, HashSize);
         return StructuralComparisons.StructuralEqualityComparer.Equals(hash, enteredHash);
     }
-    public byte[] Scrypt(ReadOnlySpan<byte> password, ReadOnlySpan<byte> salt, int N, int r, int p, int dkLen)
+    private byte[] Scrypt(ReadOnlySpan<byte> password, ReadOnlySpan<byte> salt, int N, int r, int p, int dkLen)
     {
         if (N < 2 || (N & (N - 1)) != 0) throw new ArgumentException("N must be a power of 2 greater than 1", nameof(N));
 
