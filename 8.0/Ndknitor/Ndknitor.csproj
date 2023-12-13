@@ -9,7 +9,7 @@
     <Nullable>disable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PackageId>Ndknitor</PackageId>
-    <Version>8.0.1</Version>
+    <Version>8.0.2</Version>
     <Authors>Ngo Dinh Khoi Nguyen</Authors>
     <Company>Ndknitor</Company>
     <ProjectUrl>https://github.com/ndknitor/NdknitorDotNet</ProjectUrl>
