@@ -6,6 +6,27 @@ namespace Ndknitor.EFCore;
 public static class DbContextExtensions
 {
     /// <summary>
+    /// Method retrieve a collection of newly inserted entities of type TEntity from the database context after insertion. For each entity in the collection, it attaches its auto-increment primary key value of type TKey to the entity parameter.
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TKey"></typeparam>
+    /// <param name="context"></param>
+    /// <param name="entities"></param>
+    /// <returns></returns>
+    public static IEnumerable<TEntity> MapOffsetId<TEntity, TKey>(this DbContext context, IEnumerable<TEntity> entities)
+    where TEntity : class
+    where TKey : struct, IComparable, IComparable<TKey>, IConvertible, IEquatable<TKey>, IFormattable
+    {
+        dynamic id = GetInsertId<TEntity, TKey>(context);
+        foreach (var item in entities)
+        {
+            yield return GetInsertEntity<TEntity, TKey>(context, item, id);
+            id++;
+        }
+    }
+
+
+    /// <summary>
     /// Method retrieve the last inserted auto-increment primary key value of a specific entity type TEntity from the database context. 
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
@@ -14,7 +35,7 @@ public static class DbContextExtensions
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="InvalidOperationException"></exception>
-    public static TKey GetLastInsertedId<TEntity, TKey>(this DbContext context)
+    private static TKey GetLastInsertedId<TEntity, TKey>(this DbContext context)
         where TEntity : class
         where TKey : struct, IComparable, IComparable<TKey>, IConvertible, IEquatable<TKey>, IFormattable
     {
@@ -76,30 +97,11 @@ public static class DbContextExtensions
     /// <typeparam name="TKey"></typeparam>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static TKey GetInsertId<TEntity, TKey>(this DbContext context)
+    private static TKey GetInsertId<TEntity, TKey>(this DbContext context)
     where TEntity : class
     where TKey : struct, IComparable, IComparable<TKey>, IConvertible, IEquatable<TKey>, IFormattable
     {
         return ((dynamic)GetLastInsertedId<TEntity, TKey>(context)) + 1;
-    }
-    /// <summary>
-    /// Method retrieve a collection of newly inserted entities of type TEntity from the database context after insertion. For each entity in the collection, it attaches its auto-increment primary key value of type TKey to the entity parameter.
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TKey"></typeparam>
-    /// <param name="context"></param>
-    /// <param name="entities"></param>
-    /// <returns></returns>
-    public static IEnumerable<TEntity> GetInsertEntities<TEntity, TKey>(this DbContext context, IEnumerable<TEntity> entities)
-    where TEntity : class
-    where TKey : struct, IComparable, IComparable<TKey>, IConvertible, IEquatable<TKey>, IFormattable
-    {
-        dynamic id = GetInsertId<TEntity, TKey>(context);
-        foreach (var item in entities)
-        {
-            yield return GetInsertEntity<TEntity, TKey>(context, item, id);
-            id++;
-        }
     }
     /// <summary>
     /// Method retrieve the newly inserted entity of type TEntity from the database context after insertion and attach its auto-increment primary key value of type TKey to the entity parameter. 
@@ -109,7 +111,7 @@ public static class DbContextExtensions
     /// <param name="context"></param>
     /// <param name="entity"></param>
     /// <returns></returns>
-    public static TEntity GetInsertEntity<TEntity, TKey>(this DbContext context, TEntity entity)
+    private static TEntity GetInsertEntity<TEntity, TKey>(this DbContext context, TEntity entity)
     where TEntity : class
     where TKey : struct, IComparable, IComparable<TKey>, IConvertible, IEquatable<TKey>, IFormattable
     {
