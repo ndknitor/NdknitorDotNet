@@ -48,4 +48,14 @@ public static class ArrayExtensions
         return targetArray;
     }
 
+    public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, int> expression, int offset)
+    {
+        offset++;
+        foreach (var item in array)
+        {
+            expression(item, offset);
+            offset++;
+        }
+        return array;
+    }
 }

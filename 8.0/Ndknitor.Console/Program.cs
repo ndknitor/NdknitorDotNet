@@ -1,14 +1,66 @@
-﻿
-using System.Diagnostics;
-using System.Text;
+﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
+using Microsoft.EntityFrameworkCore;
+using Ndknitor.Console.Context;
+using Ndknitor.EFCore;
 using Ndknitor.System;
-using Newtonsoft.Json;
-string s = JsonConvert.SerializeObject(new 
+BenchmarkRunner.Run<SeatBenchmark>();
+
+public class SeatBenchmark
 {
-    alg = "HS256",
-    typ = "JWT"
-});
-Console.WriteLine(Convert.ToBase64String(Encoding.UTF8.GetBytes(s)));
+    [Benchmark]
+    public void MapOffsetIdWithoutMax()
+    {
+        var context = new EtdbContext(new DbContextOptions<EtdbContext>());
+        IEnumerable<Seat> seats = new List<Seat>
+        {
+            new Seat
+            {
+                BusId = 2,
+                Deleted = 0,
+                Name = "asdasd",
+                Price = 123123
+            },
+            new Seat
+            {
+                BusId = 2,
+                Deleted = 0,
+                Name = "asdasd",
+                Price = 123123
+            }
+        };
+        seats.MapIncreasement((s, o) => s.SeatId = o, context.Seat.Max(s => s.SeatId));
+        Console.WriteLine(seats.ToJson());
+    }
+    [Benchmark]
+    public void MapOffsetIdWithMax()
+    {
+        var context = new EtdbContext(new DbContextOptions<EtdbContext>());
+        IEnumerable<Seat> seats = new List<Seat>
+        {
+            new Seat
+            {
+                BusId = 2,
+                Deleted = 0,
+                Name = "asdasd",
+                Price = 123123
+            },
+            new Seat
+            {
+                BusId = 2,
+                Deleted = 0,
+                Name = "asdasd",
+                Price = 123123
+            }
+        };
+        int offsetId = context.Seat.Max(s => s.SeatId) + 1;
+        foreach (var item in seats)
+        {
+            item.SeatId = offsetId++;
+        }
+        Console.WriteLine(seats.ToJson());
+    }
+}
 
 // SCryptHash hasher = new SCryptHash { };
 // //PBKDF2Hash hasher = new PBKDF2Hash{};
