@@ -48,6 +48,36 @@ public static class ArrayExtensions
         return targetArray;
     }
 
+    public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, sbyte> expression, sbyte offset)
+    {
+        offset++;
+        foreach (var item in array)
+        {
+            expression(item, offset);
+            offset++;
+        }
+        return array;
+    }
+    public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, byte> expression, byte offset)
+    {
+        offset++;
+        foreach (var item in array)
+        {
+            expression(item, offset);
+            offset++;
+        }
+        return array;
+    }
+    public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, short> expression, short offset)
+    {
+        offset++;
+        foreach (var item in array)
+        {
+            expression(item, offset);
+            offset++;
+        }
+        return array;
+    }
     public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, int> expression, int offset)
     {
         offset++;
@@ -89,6 +119,16 @@ public static class ArrayExtensions
         return array;
     }
     public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, Int128> expression, Int128 offset)
+    {
+        offset++;
+        foreach (var item in array)
+        {
+            expression(item, offset);
+            offset++;
+        }
+        return array;
+    }
+    public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, UInt128> expression, UInt128 offset)
     {
         offset++;
         foreach (var item in array)
