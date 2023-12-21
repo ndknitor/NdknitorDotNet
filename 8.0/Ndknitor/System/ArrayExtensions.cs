@@ -58,4 +58,44 @@ public static class ArrayExtensions
         }
         return array;
     }
+    public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, uint> expression, uint offset)
+    {
+        offset++;
+        foreach (var item in array)
+        {
+            expression(item, offset);
+            offset++;
+        }
+        return array;
+    }
+    public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, long> expression, long offset)
+    {
+        offset++;
+        foreach (var item in array)
+        {
+            expression(item, offset);
+            offset++;
+        }
+        return array;
+    }
+    public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, ulong> expression, ulong offset)
+    {
+        offset++;
+        foreach (var item in array)
+        {
+            expression(item, offset);
+            offset++;
+        }
+        return array;
+    }
+    public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, Int128> expression, Int128 offset)
+    {
+        offset++;
+        foreach (var item in array)
+        {
+            expression(item, offset);
+            offset++;
+        }
+        return array;
+    }
 }
