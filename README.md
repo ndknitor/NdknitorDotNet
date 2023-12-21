@@ -86,6 +86,34 @@ employees.MapProperty(e => e.Salary, salaries);
 
 In this example, the `MapProperty` extension method is used to map the `Salary` property of `Employee` objects in the `employees` collection to values from the `salaries` collection.
 
+## `MapIncreasement` Extension Method
+
+### Description
+
+The `MapIncreasement` extension method allows you to map a property of elements in one collection to a start number. This can be helpful when you need to have application level auto-increment key.
+
+### Signature
+
+```csharp
+public static IEnumerable<T> MapIncreasement<T>(this IEnumerable<T> array, Action<T, int> expression, int offset)
+```
+
+- `array` (IEnumerable<T>): The target collection whose property you want to map.
+- `expression` (Action<T, int>): A lambda expression specifying the property to be mapped.
+- `offset` (int): The source collection containing the values to map to the target collection.
+
+### Behavior
+
+- The method maps the specified property of elements in the `array` to number start in `offset` + 1.
+- It iterates through both collections and updates the property value in the `targetArray` with the corresponding value from the `sourceArray`.
+
+### Example Usage
+
+```csharp
+seats.MapIncreasement((s, o) => s.SeatId = o, context.Seat.Max(s => s.SeatId));
+// The 'SeatId' property of 'seats' will be maped incrementaly start from context.Seat.Max(s => s.SeatId) + 1.
+```
+
 # ToJsonClass Extension Method
 
 ## Description
@@ -231,84 +259,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.TicketDataFormat = new KeyBasedCookieDataFormat("your-super-secret-key");
 });
 ```
+
 ### Key Features
 
 It have flexibility in handling the encryption key. By allowing you to provide a custom key during initialization, it becomes highly suitable for scenarios involving horizontal scaling. Different instances of your application can share the same authentication key, ensuring seamless authentication across the scaled-out instances.
 
 ### Description
+
 The capability is particularly useful in distributed environments, such as microservices architectures, where multiple instances of the application may need to authenticate users independently while sharing the same user authentication information.
 
 Remember to keep your authentication key secure and do not expose it to unauthorized personnel.
 
 # Ndknitor.EFCore Namespace
 
-The `Ndknitor.EFCore` namespace contains extension methods that provide functionality related to auto-increment primary keys in Entity Framework Core applications.
-
-## `GetLastInsertedId<TEntity, TKey>` Extension Method
-
-### Description
-
-The `GetLastInsertedId<TEntity, TKey>` extension method is used to retrieve the last inserted auto-increment primary key value of a specific entity type `TEntity` from the database context. This method can be helpful when you need to obtain the ID of a newly inserted entity.
-
-### Signature
-
-```csharp
-public static TKey GetLastInsertedId<TEntity, TKey>(this DbContext context)
-```
-
-- `context` (DbContext): The database context from which to retrieve the last inserted ID.
-
-**Returns:** The last inserted auto-increment primary key value of type `TKey` for the specified entity type.
-
-## `GetInsertId<TEntity, TKey>` Extension Method
-
-### Description
-
-The `GetInsertId<TEntity, TKey>` extension method is used to retrieve the auto-increment primary key value of a newly inserted entity of type `TEntity` from the database context. This method can be used to obtain the ID of an entity immediately after inserting it.
-
-### Signature
-
-```csharp
-public static TKey GetInsertId<TEntity, TKey>(this DbContext context)
-```
-
-- `context` (DbContext): The database context from which to retrieve the last inserted ID.
-
-**Returns:** The auto-increment primary key value of type `TKey` for the newly inserted entity of type `TEntity`.
-
-## `GetInsertEntity<TEntity, TKey>` Extension Method
-
-### Description
-
-The `GetInsertEntity<TEntity, TKey>` extension method is used to retrieve the newly inserted entity of type `TEntity` from the database context after insertion and attach its auto-increment primary key value of type `TKey` to the entity parameter. This method is useful when you need to work with the entire entity immediately after insertion and want to have access to the generated primary key value.
-
-### Signature
-
-```csharp
-public static TEntity GetInsertEntity<TEntity, TKey>(this DbContext context, TEntity entity)
-```
-
-- `context` (DbContext): The database context where the entity was inserted.
-- `entity` (TEntity): The entity that was inserted.
-
-**Returns:** The newly inserted entity of type `TEntity` along with its auto-increment primary key value of type `TKey`.
-
-## `GetInsertEntities<TEntity, TKey>` Extension Method
-
-### Description
-
-The `GetInsertEntities<TEntity, TKey>` extension method is used to retrieve a collection of newly inserted entities of type `TEntity` from the database context after insertion. For each entity in the collection, it attaches its auto-increment primary key value of type `TKey` to the entity parameter. This method is helpful when you need to work with multiple inserted entities immediately after insertion and want to have access to the generated primary key values for each entity.
-
-### Signature
-
-```csharp
-public static IEnumerable<TEntity> GetInsertEntities<TEntity, TKey>(this DbContext context, IEnumerable<TEntity> entities)
-```
-
-- `context` (DbContext): The database context where the entities were inserted.
-- `entities` (IEnumerable<TEntity>): The collection of entities that were inserted.
-
-**Returns:** A collection of newly inserted entities of type `TEntity` along with their auto-increment primary key values of type `TKey`.
+The `Ndknitor.EFCore` namespace contains extension methods that provide flexible way to select data in Entity Framework Core applications.
 
 ## `Paginate<T>` Extension Method
 
